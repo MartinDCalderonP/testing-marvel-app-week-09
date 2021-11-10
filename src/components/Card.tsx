@@ -29,6 +29,13 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 			type,
 		};
 
+		window.localStorage.setItem(
+			'bookmarks',
+			JSON.stringify({
+				bookmarks: [...state.bookmarks, newBookmark],
+			})
+		);
+
 		dispatch({
 			type: actionTypes.ADD_BOOKMARKS,
 			bookmarks: [...state.bookmarks, newBookmark],

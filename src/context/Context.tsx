@@ -30,7 +30,13 @@ function reducer(state: State, action: Action) {
 }
 
 export function StateProvider({ children }: { children: ReactNode }) {
-	const [state, dispatch] = useReducer<any>(reducer, initialState);
+	const storagedState = window.localStorage.getItem('bookmarks');
+	const [state, dispatch] = useReducer(
+		reducer,
+		storagedState ? JSON.parse(storagedState) : initialState
+	);
+
+	console.log(state);
 
 	return (
 		<StateContext.Provider value={{ state, dispatch }}>
