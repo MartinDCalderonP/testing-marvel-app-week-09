@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from '../styles/Card.module.scss';
 import { Link } from 'react-router-dom';
+import { actionTypes, useContextState } from '../context/Context';
 import { ICard, IDetailUrls } from '../common/interfaces';
 import { paths } from '../common/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { actionTypes, useState } from '../context/Context';
 
 export default function Card({ id, name, thumbnail, type }: ICard) {
-	const { state, dispatch } = useState();
+	const { state, dispatch } = useContextState();
 
 	const detailUrls: IDetailUrls = {
 		characters: `${paths.characters}/${id}`,
@@ -19,7 +19,9 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 
 	const imageUrl = thumbnail?.path + '.' + thumbnail?.extension;
 
-	const handleAddBookmark = () => {
+	const handleAddBookmark = (e: any) => {
+		e.preventDefault();
+
 		const newBookmark = {
 			id,
 			name,
@@ -40,7 +42,9 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 		});
 	};
 
-	const handleRemoveBookmark = () => {
+	const handleRemoveBookmark = (e: any) => {
+		e.preventDefault();
+
 		const newBookmarks = state.bookmarks.filter(
 			(bookmark: any) => bookmark.id !== id && bookmark.type === type
 		);
@@ -80,12 +84,11 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 				<p>{name}</p>
 			</Link>
 
-			<button className={styles.bookmarkButton}>
-				<FontAwesomeIcon
-					className={styles.bookmarkIcon}
-					icon={currentIcon}
-					onClick={currentOnClickFunction}
-				/>
+			<button
+				className={styles.bookmarkButton}
+				onClick={currentOnClickFunction}
+			>
+				<FontAwesomeIcon className={styles.bookmarkIcon} icon={currentIcon} />
 			</button>
 		</div>
 	);
