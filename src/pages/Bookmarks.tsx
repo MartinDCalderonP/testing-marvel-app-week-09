@@ -1,58 +1,38 @@
 import React from 'react';
 import styles from '../styles/Bookmarks.module.scss';
 import { useState } from '../context/Context';
+import { capitalizeWord } from '../common/helpers';
+import CardsContainer from '../components/CardsContainer';
+
+const bookmarksTypes = ['characters', 'comics', 'stories'];
 
 export default function Bookmarks() {
-	const { state, dispatch } = useState();
+	const { state } = useState();
+
+	const filterBookmarks = (type: string) => {
+		return state.bookmarks.filter((bookmark: any) => bookmark.type === type);
+	};
 
 	return (
 		<div className={styles.bookmarks}>
-			<h1>Bookmarks</h1>
-			<ul>
-				<h2>Characters</h2>
-				{state.bookmarks.characters.map((bookmark: any, index: number) => (
-					<li key={index}>
-						<a href={bookmark.url}>{bookmark.title}</a>
-						<button
-							onClick={() =>
-								dispatch({ type: 'REMOVE_BOOKMARK', payload: index })
-							}
-						>
-							Remove
-						</button>
-					</li>
-				))}
-			</ul>
-			<ul>
-				<h2>Comics</h2>
-				{state.bookmarks.comics.map((bookmark: any, index: number) => (
-					<li key={index}>
-						<a href={bookmark.url}>{bookmark.title}</a>
-						<button
-							onClick={() =>
-								dispatch({ type: 'REMOVE_BOOKMARK', payload: index })
-							}
-						>
-							Remove
-						</button>
-					</li>
-				))}
-			</ul>
-			<ul>
-				<h2>Stories</h2>
-				{state.bookmarks.stories.map((bookmark: any, index: number) => (
-					<li key={index}>
-						<a href={bookmark.url}>{bookmark.title}</a>
-						<button
-							onClick={() =>
-								dispatch({ type: 'REMOVE_BOOKMARK', payload: index })
-							}
-						>
-							Remove
-						</button>
-					</li>
-				))}
-			</ul>
+			<h1 className={styles.bookmarksTitle}>Bookmarks</h1>
+
+			{bookmarksTypes.map(
+				(type) =>
+					filterBookmarks(type).length > 0 && (
+						<>
+							<h2>{capitalizeWord(type)}</h2>
+
+							<CardsContainer
+								loading={state.loading}
+								posts={filterBookmarks(type)}
+								type={type}
+							/>
+						</>
+					)
+			)}
+
+			{state.bookmarks.length === 0 && <h2>You have no bookmarks yet.</h2>}
 		</div>
 	);
 }
