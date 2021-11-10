@@ -8,6 +8,7 @@ const initialState = {
 export const actionTypes = {
 	ADD_BOOKMARKS: 'ADD_BOOKMARKS',
 	REMOVE_BOOKMARK: 'REMOVE_BOOKMARK',
+	CLEAR_BOOKMARKS: 'CLEAR_BOOKMARKS',
 };
 
 const StateContext = createContext<Context>({} as Context);
@@ -19,11 +20,19 @@ function reducer(state: State, action: Action) {
 				...state,
 				bookmarks: action.bookmarks,
 			};
+
 		case actionTypes.REMOVE_BOOKMARK:
 			return {
 				...state,
 				bookmarks: action.bookmarks,
 			};
+
+		case actionTypes.CLEAR_BOOKMARKS:
+			return {
+				...state,
+				bookmarks: [],
+			};
+
 		default:
 			throw new Error();
 	}
@@ -43,11 +52,11 @@ export function StateProvider({ children }: { children: ReactNode }) {
 	);
 }
 
-export function useState() {
+export function useContextState() {
 	const context = useContext(StateContext);
 
 	if (!context) {
-		throw new Error('useState must be used within a StateProvider');
+		throw new Error('useStateValue must be used within a StateProvider');
 	}
 
 	return context;

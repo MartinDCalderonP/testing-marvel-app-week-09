@@ -1,16 +1,24 @@
 import React from 'react';
 import styles from '../styles/Bookmarks.module.scss';
-import { useState } from '../context/Context';
+import { actionTypes, useContextState } from '../context/Context';
 import { capitalizeWord } from '../common/helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CardsContainer from '../components/CardsContainer';
 
 const bookmarksTypes = ['characters', 'comics', 'stories'];
 
 export default function Bookmarks() {
-	const { state } = useState();
+	const { state, dispatch } = useContextState();
 
 	const filterBookmarks = (type: string) => {
 		return state.bookmarks.filter((bookmark: any) => bookmark.type === type);
+	};
+
+	const handleClearBookmarks = (e: any) => {
+		e.preventDefault();
+		window.localStorage.removeItem('bookmarks');
+		dispatch({ type: actionTypes.CLEAR_BOOKMARKS });
 	};
 
 	return (
@@ -31,6 +39,13 @@ export default function Bookmarks() {
 							/>
 						</div>
 					)
+			)}
+
+			{state.bookmarks.length > 0 && (
+				<button className={styles.clearButton} onClick={handleClearBookmarks}>
+					Remove All Bookmarks
+					<FontAwesomeIcon className={styles.clearIcon} icon={faTrash} />
+				</button>
 			)}
 
 			{state.bookmarks.length === 0 && <h2>You have no bookmarks yet.</h2>}
