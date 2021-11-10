@@ -82,8 +82,8 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 
 			<button className={styles.bookmarkButton}>
 				<FontAwesomeIcon
-					icon={currentIcon}
 					className={styles.bookmarkIcon}
+					icon={currentIcon}
 					onClick={currentOnClickFunction}
 				/>
 			</button>
