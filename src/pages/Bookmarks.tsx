@@ -21,9 +21,10 @@ export default function Bookmarks() {
 				(type) =>
 					filterBookmarks(type).length > 0 && (
 						<>
-							<h2>{capitalizeWord(type)}</h2>
+							<h2 key={`${type}Title`}>{capitalizeWord(type)}</h2>
 
 							<CardsContainer
+								key={`${type}CardsContainer`}
 								loading={state.loading}
 								posts={filterBookmarks(type)}
 								type={type}
