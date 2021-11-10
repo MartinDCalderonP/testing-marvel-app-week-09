@@ -44,7 +44,7 @@ export default function Stories() {
 					<CardsContainer
 						loading={loading}
 						posts={isCorrectData(data)}
-						stories
+						type="stories"
 					/>
 
 					<PaginationButtons

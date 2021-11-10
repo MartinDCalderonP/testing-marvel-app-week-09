@@ -15,9 +15,7 @@ export interface ICardsContainer {
 	className?: string;
 	loading: boolean;
 	posts: ICharacter[];
-	characters?: boolean;
-	comics?: boolean;
-	stories?: boolean;
+	type: string;
 }
 
 export interface IPaginationButtons<T> {
@@ -31,9 +29,8 @@ export interface ICard {
 	id: number;
 	name: string;
 	thumbnail: string;
-	characters?: boolean;
-	comics?: boolean;
-	stories?: boolean;
+	type: string;
+}
 }
 
 export interface ICharacter {

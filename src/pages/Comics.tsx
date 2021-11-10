@@ -54,7 +54,7 @@ export default function Comics() {
 					<CardsContainer
 						loading={loading}
 						posts={isCorrectData(data)}
-						comics
+						type="comics"
 					/>
 
 					<PaginationButtons

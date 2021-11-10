@@ -67,7 +67,7 @@ export default function Characters() {
 					<CardsContainer
 						loading={loading}
 						posts={isCorrectData(data)}
-						characters
+						type='characters'
 					/>
 
 					<PaginationButtons
