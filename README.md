@@ -1,6 +1,6 @@
 # Deploy
 
-Link to deployed project on Vercel: [Marvel App](https://marvel-app-week-08.vercel.app/).
+Link to deployed project on Vercel: [Testing Marvel App](https://testing-marvel-app-week-09.vercel.app).
 
 # Getting Started with Create React App
 
