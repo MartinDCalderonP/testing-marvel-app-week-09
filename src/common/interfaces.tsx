@@ -28,7 +28,10 @@ export interface IPaginationButtons<T> {
 export interface ICard {
 	id: number;
 	name: string;
-	thumbnail: string;
+	thumbnail: {
+		path: string;
+		extension: string;
+	};
 	type: string;
 }
 

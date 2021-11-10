@@ -22,7 +22,7 @@ export default function CardsContainer({
 						key={`character${post.id}`}
 						id={post.id}
 						name={post.name || post.title}
-						thumbnail={post.thumbnail?.path + '.' + post.thumbnail?.extension}
+						thumbnail={post.thumbnail}
 						type={type}
 					/>
 				))}

@@ -19,9 +19,15 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 
 	const toDetailUrl = detailUrls[type];
 
+	const imageUrl = thumbnail?.path + '.' + thumbnail?.extension;
+
+	console.log(imageUrl);
+
 	const handleHeartIconClick = () => {
 		const newBookmark = {
 			id,
+			name,
+			thumbnail,
 			type,
 		};
 
@@ -30,13 +36,13 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 			bookmarks: [...state.bookmarks, newBookmark],
 		});
 	};
-	
+
 	return (
 		<div className={`${styles.card} ${styles.appearCard}`}>
 			<Link className={styles.cardLink} to={toDetailUrl}>
-				{thumbnail !== 'undefined.undefined' && (
+				{imageUrl !== 'undefined.undefined' && (
 					<div className={styles.cardImage}>
-						<img src={thumbnail} alt={name} />
+						<img src={imageUrl} alt={name} />
 					</div>
 				)}
 
