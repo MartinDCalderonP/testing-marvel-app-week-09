@@ -21,8 +21,6 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 
 	const imageUrl = thumbnail?.path + '.' + thumbnail?.extension;
 
-	console.log(imageUrl);
-
 	const handleHeartIconClick = () => {
 		const newBookmark = {
 			id,
