@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { ICard, IDetailUrls } from '../common/interfaces';
 import { paths } from '../common/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
-// import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { actionTypes, useState } from '../context/Context';
 
 export default function Card({ id, name, thumbnail, type }: ICard) {
@@ -17,11 +17,9 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 		stories: `${paths.stories}/${id}`,
 	};
 
-	const toDetailUrl = detailUrls[type];
-
 	const imageUrl = thumbnail?.path + '.' + thumbnail?.extension;
 
-	const handleHeartIconClick = () => {
+	const handleAddBookmark = () => {
 		const newBookmark = {
 			id,
 			name,
@@ -42,9 +40,37 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 		});
 	};
 
+	const handleRemoveBookmark = () => {
+		const newBookmarks = state.bookmarks.filter(
+			(bookmark: any) => bookmark.id !== id && bookmark.type === type
+		);
+
+		window.localStorage.setItem(
+			'bookmarks',
+			JSON.stringify({
+				bookmarks: newBookmarks,
+			})
+		);
+
+		dispatch({
+			type: actionTypes.REMOVE_BOOKMARK,
+			bookmarks: newBookmarks,
+		});
+	};
+
+	const postInBookmarks = state.bookmarks.find(
+		(bookmark: any) => bookmark.id === id && bookmark.type === type
+	);
+
+	const currentIcon = !postInBookmarks ? faHeart : faTrash;
+
+	const currentOnClickFunction = !postInBookmarks
+		? handleAddBookmark
+		: handleRemoveBookmark;
+
 	return (
 		<div className={`${styles.card} ${styles.appearCard}`}>
-			<Link className={styles.cardLink} to={toDetailUrl}>
+			<Link className={styles.cardLink} to={detailUrls[type]}>
 				{imageUrl !== 'undefined.undefined' && (
 					<div className={styles.cardImage}>
 						<img src={imageUrl} alt={name} />
@@ -56,9 +82,9 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 
 			<button className={styles.bookmarkButton}>
 				<FontAwesomeIcon
-					icon={outlinedHeart}
-					className={styles.heartIcon}
-					onClick={handleHeartIconClick}
+					icon={currentIcon}
+					className={styles.bookmarkIcon}
+					onClick={currentOnClickFunction}
 				/>
 			</button>
 		</div>
