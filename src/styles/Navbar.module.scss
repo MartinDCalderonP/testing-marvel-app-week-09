@@ -1,0 +1,24 @@
+.navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--backgroundColor);
+	color: var(--textColor);
+	border-bottom: 1px solid var(--detailsColor);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	height: 50px;
+	font-size: 1.25rem;
+	padding: 0 30px;
+
+	a {
+		text-decoration: none;
+
+		.homeIcon {
+			margin: 0 15px 0 30px;
+		}
+	}
+
+	.active {
+		color: var(--hoverDetailsColor);
+	}
+}

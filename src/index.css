@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+	--backgroundColor: #151515;
+	--textColor: #ffffff;
+	--innerBackgroundColor: #ffffff;
+	--innerTextColor: #151515;
+	--detailsColor: darkred;
+	--hoverDetailsColor: #ec1d24;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	color: var(--lettersColor);
+	font-family: 'Roboto', sans-serif;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: var(--backgroundColor);
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
