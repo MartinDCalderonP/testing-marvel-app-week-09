@@ -1,6 +1,6 @@
 .card {
 	width: 20%;
-	height: 250px;
+	height: 300px;
 	background-color: var(--backgroundColor);
 	color: var(--textColor);
 	margin: 10px 5px;
@@ -14,35 +14,53 @@
 	justify-content: space-between;
 	transition: all 0.3s linear;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-	text-decoration: none;
 
 	&:hover {
 		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 		border-color: var(--hoverDetailsColor);
 	}
 
-	.heartIcon {
-		margin-bottom: 5px;
-	}
-
-	.cardImage {
+	.cardLink {
 		display: flex;
-		justify-content: center;
-		width: 100%;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		text-decoration: none;
 		height: 80%;
 
-		img {
+		.cardImage {
+			display: flex;
+			justify-content: center;
 			width: 100%;
-			object-fit: cover;
+			height: 80%;
+
+			img {
+				width: 100%;
+				object-fit: cover;
+			}
+
+			.defaultImage {
+				width: 75%;
+			}
 		}
 
-		.defaultImage {
-			width: 75%;
+		p {
+			overflow: hidden;
 		}
 	}
 
-	p {
-		overflow: hidden;
+	.bookmarkButton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px;
+		border: none;
+		background-color: var(--backgroundColor);
+		cursor: pointer;
+
+		.heartIcon {
+			margin-bottom: 5px;
+		}
 	}
 
 	@media (max-width: 599px) {
