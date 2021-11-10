@@ -19,7 +19,7 @@ export default function CardsContainer({
 				posts?.length > 0 &&
 				posts?.map((post: any) => (
 					<Card
-						key={`character${post.id}`}
+						key={`${type}${post.id}`}
 						id={post.id}
 						name={post.name || post.title}
 						thumbnail={post.thumbnail}
