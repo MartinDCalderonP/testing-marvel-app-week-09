@@ -36,8 +36,6 @@ export function StateProvider({ children }: { children: ReactNode }) {
 		storagedState ? JSON.parse(storagedState) : initialState
 	);
 
-	console.log(state);
-
 	return (
 		<StateContext.Provider value={{ state, dispatch }}>
 			{children}
