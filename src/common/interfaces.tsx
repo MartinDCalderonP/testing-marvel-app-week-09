@@ -31,6 +31,9 @@ export interface ICard {
 	thumbnail: string;
 	type: string;
 }
+
+export interface IDetailUrls {
+	[key: string]: string;
 }
 
 export interface ICharacter {

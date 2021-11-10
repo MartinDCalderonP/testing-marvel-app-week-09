@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { CounterProvider } from './context/Context';
+import { StateProvider } from './context/Context';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<CounterProvider>
+		<StateProvider>
 			<App />
-		</CounterProvider>
+		</StateProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );
