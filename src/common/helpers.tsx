@@ -61,36 +61,6 @@ export const charactersCurrentNewUrl = (
 	return currentNewUrl;
 };
 
-export const selectFetchUrl = (comics: boolean | undefined) => {
-	if (comics) {
-		return `${API.comics}?${API.limit}10`;
-	} else {
-		return `${API.stories}?${API.limit}10`;
-	}
-};
-
-export const selectCurrentNewUrl = (
-	term: string,
-	formats: boolean | undefined,
-	comics: boolean | undefined
-) => {
-	const newUrlCommonParams = `${term}${paths.page}1`;
-
-	const newUrls: IUrlsObject = {
-		comics: `${paths.characters}${paths.comic}${newUrlCommonParams}`,
-		stories: `${paths.characters}${paths.story}${newUrlCommonParams}`,
-		formats: `${paths.comics}${paths.format}${newUrlCommonParams}`,
-	};
-
-	const currentNewUrl = formats
-		? newUrls.formats
-		: comics
-		? newUrls.comics
-		: newUrls.stories;
-
-	return currentNewUrl;
-};
-
 export const comicsCurrentFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
@@ -147,6 +117,36 @@ export const storiesCurrentNewUrl = (
 	};
 
 	const currentNewUrl = searchedTerm ? newUrls.searchedTerm : newUrls.default;
+
+	return currentNewUrl;
+};
+
+export const selectFetchUrl = (comics: boolean | undefined) => {
+	if (comics) {
+		return `${API.comics}?${API.limit}10`;
+	} else {
+		return `${API.stories}?${API.limit}10`;
+	}
+};
+
+export const selectCurrentNewUrl = (
+	term: string,
+	formats: boolean | undefined,
+	comics: boolean | undefined
+) => {
+	const newUrlCommonParams = `${term}${paths.page}1`;
+
+	const newUrls: IUrlsObject = {
+		comics: `${paths.characters}${paths.comic}${newUrlCommonParams}`,
+		stories: `${paths.characters}${paths.story}${newUrlCommonParams}`,
+		formats: `${paths.comics}${paths.format}${newUrlCommonParams}`,
+	};
+
+	const currentNewUrl = formats
+		? newUrls.formats
+		: comics
+		? newUrls.comics
+		: newUrls.stories;
 
 	return currentNewUrl;
 };
