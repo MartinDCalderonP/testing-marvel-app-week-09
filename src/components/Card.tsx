@@ -7,6 +7,7 @@ import { paths } from '../common/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import notFoundImage from '../img/notFound.jpg';
 
 export default function Card({ id, name, thumbnail, type }: ICard) {
 	const { state, dispatch } = useContextState();
@@ -17,7 +18,19 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 		stories: `${paths.stories}/${id}`,
 	};
 
-	const imageUrl = thumbnail?.path + '.' + thumbnail?.extension;
+	const imageUrl = () => {
+		if (thumbnail) {
+			return thumbnail.path + '.' + thumbnail.extension;
+		} else {
+			return notFoundImage;
+		}
+	};
+
+	const postInBookmarks = state.bookmarks.find(
+		(bookmark: any) => bookmark.id === id && bookmark.type === type
+	);
+
+	const currentIcon = !postInBookmarks ? outlinedHeart : solidHeart;
 
 	const handleAddBookmark = (e: any) => {
 		e.preventDefault();
@@ -62,12 +75,6 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 		});
 	};
 
-	const postInBookmarks = state.bookmarks.find(
-		(bookmark: any) => bookmark.id === id && bookmark.type === type
-	);
-
-	const currentIcon = !postInBookmarks ? outlinedHeart : solidHeart;
-
 	const currentOnClickFunction = !postInBookmarks
 		? handleAddBookmark
 		: handleRemoveBookmark;
@@ -75,11 +82,9 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 	return (
 		<div className={`${styles.card} ${styles.appearCard}`}>
 			<Link className={styles.cardLink} to={cardToDetailUrl[type]}>
-				{imageUrl !== 'undefined.undefined' && (
-					<div className={styles.cardImage}>
-						<img src={imageUrl} alt={name} />
-					</div>
-				)}
+				<div className={styles.cardImage}>
+					<img src={imageUrl()} alt={name} />
+				</div>
 
 				<p>{name}</p>
 			</Link>

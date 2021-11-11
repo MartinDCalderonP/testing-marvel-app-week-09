@@ -11,6 +11,7 @@ import {
 } from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import Spinner from '../components/Spinner';
+import notFoundImage from '../img/notFound.jpg';
 
 const detailTypes = ['characters', 'comics', 'stories'];
 
@@ -25,6 +26,23 @@ export default function Detail({ type }: IDetailProps) {
 
 	const { data, loading } = useFetch(fetchUrl[type]);
 
+	const currentImage = () => {
+		if (isCorrectData(data) && isCorrectData(data)[0]?.thumbnail) {
+			return (
+				isCorrectData(data)[0].thumbnail.path +
+				'.' +
+				isCorrectData(data)[0].thumbnail.extension
+			);
+		}
+		return notFoundImage;
+	};
+
+	const currentTitle = () => {
+		if (isCorrectData(data) && isCorrectData(data)[0]) {
+			return isCorrectData(data)[0]?.name || isCorrectData(data)[0]?.title;
+		}
+	};
+
 	const notCurrentType = detailTypes.filter(
 		(detailType) => detailType !== type
 	);
@@ -35,24 +53,12 @@ export default function Detail({ type }: IDetailProps) {
 
 			{!loading && data && (
 				<>
-					<h1>{isCorrectData(data)[0].name || isCorrectData(data)[0].title}</h1>
+					<h1>{currentTitle()}</h1>
 					<div className={styles.row}>
 						<div className={styles.leftColumn}>
-							{isCorrectData(data)[0].thumbnail && (
-								<div className={styles.image}>
-									<img
-										src={
-											isCorrectData(data)[0].thumbnail.path +
-											'.' +
-											isCorrectData(data)[0].thumbnail.extension
-										}
-										alt={
-											isCorrectData(data)[0].name ||
-											isCorrectData(data)[0].title
-										}
-									/>
-								</div>
-							)}
+							<div className={styles.image}>
+								<img src={currentImage()} alt={currentTitle()} />
+							</div>
 
 							{isCorrectData(data)[0].description && (
 								<div className={styles.description}>
@@ -69,7 +75,7 @@ export default function Detail({ type }: IDetailProps) {
 
 								<p>
 									<b>Name: </b>
-									{isCorrectData(data)[0].name || isCorrectData(data)[0].title}
+									{currentTitle()}
 								</p>
 							</div>
 						</div>
