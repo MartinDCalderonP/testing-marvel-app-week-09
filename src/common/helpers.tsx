@@ -6,7 +6,7 @@ export const capitalizeWord = (word: string) => {
 	return word[0].toUpperCase() + word.substr(1).toLowerCase();
 };
 
-export const currentFetchUrl = (
+export const charactersCurrentFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
 	searchedTerm: string,
@@ -33,7 +33,7 @@ export const currentFetchUrl = (
 	return currentFetchUrl;
 };
 
-export const currentNewUrl = (
+export const charactersCurrentNewUrl = (
 	pageNumber: number,
 	searchedTerm: string,
 	comic: string,
@@ -56,5 +56,34 @@ export const currentNewUrl = (
 		? newUrls.story
 		: newUrls.default;
 
+	return currentNewUrl;
+};
+
+export const selectFetchUrl = (comics: boolean | undefined) => {
+	if (comics) {
+		return `${API.comics}?${API.limit}10`;
+	} else {
+		return `${API.stories}?${API.limit}10`;
+	}
+};
+
+export const selectCurrentNewUrl = (
+	term: string,
+	formats: boolean | undefined,
+	comics: boolean | undefined
+) => {
+	const newUrlCommonParams = `${term}${paths.page}1`;
+
+	const newUrls: IUrlsObject = {
+		comics: `${paths.characters}${paths.comic}${newUrlCommonParams}`,
+		stories: `${paths.characters}${paths.story}${newUrlCommonParams}`,
+		formats: `${paths.comics}${paths.format}${newUrlCommonParams}`,
+	};
+
+	const currentNewUrl = formats
+		? newUrls.formats
+		: comics
+		? newUrls.comics
+		: newUrls.stories;
 	return currentNewUrl;
 };

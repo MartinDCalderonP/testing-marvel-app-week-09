@@ -1,7 +1,7 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import styles from '../styles/Select.module.scss';
 import { useHistory } from 'react-router';
-import { paths, API } from '../common/enums';
+import { selectCurrentNewUrl, selectFetchUrl } from '../common/helpers';
 import { ISelect, IComic, IStory } from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
@@ -23,35 +23,15 @@ export default function Select({
 	stories,
 	formats,
 }: ISelect) {
-	const fetchUrl = comics
-		? `${API.comics}?${API.limit}10`
-		: `${API.stories}?${API.limit}10`;
+	const fetchUrl = selectFetchUrl(comics);
 	const { data, loading } = useFetch(fetchUrl);
-	const [selectedValue, setSelectedValue] = useState<string>('');
+	const [selectedValue, setSelectedValue] = useState(currentValue || '');
 	const history = useHistory();
-
-	useEffect(() => {
-		if (currentValue) {
-			setSelectedValue(currentValue);
-		}
-	}, [currentValue]);
 
 	const handleSelectValueChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedValue(e.target.value);
 
-		let newUrl = '';
-
-		if (comics) {
-			newUrl = `${paths.characters}${paths.comic}${e.target.value}${paths.page}1`;
-		}
-
-		if (stories) {
-			newUrl = `${paths.characters}${paths.story}${e.target.value}${paths.page}1`;
-		}
-
-		if (formats) {
-			newUrl = `${paths.comics}${paths.format}${e.target.value}${paths.page}1`;
-		}
+		const newUrl = selectCurrentNewUrl(e.target.value, formats, comics);
 
 		history.push(newUrl);
 	};
