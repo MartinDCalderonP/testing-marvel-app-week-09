@@ -5,8 +5,8 @@ import { actionTypes, useContextState } from '../context/Context';
 import { ICard, IDetailUrls } from '../common/interfaces';
 import { paths } from '../common/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 
 export default function Card({ id, name, thumbnail, type }: ICard) {
 	const { state, dispatch } = useContextState();
@@ -66,7 +66,7 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 		(bookmark: any) => bookmark.id === id && bookmark.type === type
 	);
 
-	const currentIcon = !postInBookmarks ? faHeart : faTrash;
+	const currentIcon = !postInBookmarks ? outlinedHeart : solidHeart;
 
 	const currentOnClickFunction = !postInBookmarks
 		? handleAddBookmark
