@@ -1,18 +1,17 @@
 import React from 'react';
 import styles from '../styles/CardsContainer.module.scss';
 // eslint-disable-next-line
-import { ICardsContainer, ICharacter, IComic } from '../common/interfaces';
+import { ICardsContainerProps, ICharacter, IComic } from '../common/interfaces';
 import Spinner from './Spinner';
 import Card from './Card';
 
 export default function CardsContainer({
-	className,
 	loading,
 	posts,
 	type,
-}: ICardsContainer) {
+}: ICardsContainerProps) {
 	return (
-		<div className={styles.cardsContainer + (className ? ` ${className}` : '')}>
+		<div className={styles.cardsContainer}>
 			{loading && <Spinner />}
 
 			{!loading &&

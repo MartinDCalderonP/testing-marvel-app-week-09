@@ -11,11 +11,11 @@ export interface IUseFetch<T> {
 	loading: boolean;
 }
 
-export interface ICardsContainer {
-	className?: string;
+export interface ICardsContainerProps {
 	loading: boolean;
 	posts: ICharacter[];
 	type: string;
+	resourceUri?: string;
 }
 
 export interface IPaginationButtons<T> {
