@@ -45,7 +45,7 @@ export const charactersCurrentNewUrl = (
 
 	const newUrls: IUrlsObject = {
 		default: `${paths.characters}${paginationParams}`,
-		searchedTerm: `${paths.search}${searchedTerm}${paginationParams}`,
+		searchedTerm: `${paths.characters}${paths.search}${searchedTerm}${paginationParams}`,
 		comic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
 		story: `${paths.characters}${paths.story}${story}${paginationParams}`,
 	};
