@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/Characters.module.scss';
 import { useParams, useHistory } from 'react-router';
-import { paths, API } from '../common/enums';
+import { currentFetchUrl, currentNewUrl } from '../common/helpers';
 import { IUseParams } from '../common/interfaces';
 import { isCorrectData, hasTotal } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
@@ -15,39 +15,20 @@ export default function Characters() {
 	const { page, searchedTerm, comic, story } = useParams<IUseParams>();
 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
 	const postsPerPage = 8;
-	const offset = postsPerPage * (currentPage - 1);
-
-	let fetchUrl = '';
-
-	if (comic) {
-		fetchUrl = `${API.comics}/${comic}${paths.characters}?${API.limit}${postsPerPage}&${API.offset}${offset}`;
-	} else if (story) {
-		fetchUrl = `${API.stories}/${story}${paths.characters}?${API.limit}${postsPerPage}&${API.offset}${offset}`;
-	} else {
-		fetchUrl =
-			`${API.characters}?${API.limit}${postsPerPage}&${API.offset}${offset}` +
-			(searchedTerm ? `&${API.charactersSearch}${searchedTerm}` : '');
-	}
-
+	const fetchUrl = currentFetchUrl(
+		currentPage,
+		postsPerPage,
+		searchedTerm,
+		comic,
+		story
+	);
 	const { data, loading } = useFetch(fetchUrl);
 	const history = useHistory();
 
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 
-		let newUrl = `${paths.characters}${paths.page}${pageNumber}`;
-
-		if (searchedTerm) {
-			newUrl = `${paths.search}${searchedTerm}${paths.page}${pageNumber}`;
-		}
-
-		if (comic) {
-			newUrl = `${paths.characters}${paths.comic}${comic}${paths.page}${pageNumber}`;
-		}
-
-		if (story) {
-			newUrl = `${paths.characters}${paths.story}${story}${paths.page}${pageNumber}`;
-		}
+		const newUrl = currentNewUrl(pageNumber, searchedTerm, comic, story);
 
 		history.push(newUrl);
 	};
@@ -67,7 +48,7 @@ export default function Characters() {
 					<CardsContainer
 						loading={loading}
 						posts={isCorrectData(data)}
-						type='characters'
+						type="characters"
 					/>
 
 					<PaginationButtons
@@ -79,21 +60,13 @@ export default function Characters() {
 				</>
 			)}
 
-			{!loading && searchedTerm && isCorrectData(data).length === 0 && (
+			{!loading && isCorrectData(data).length === 0 && (
 				<h1 className={styles.noResults}>
-					{`No results found for "${searchedTerm.replaceAll('+', ' ')}".`}
-				</h1>
-			)}
-
-			{!loading && comic && isCorrectData(data).length === 0 && (
-				<h1 className={styles.noResults}>
-					{`No results found for this comic.`}
-				</h1>
-			)}
-
-			{!loading && story && isCorrectData(data).length === 0 && (
-				<h1 className={styles.noResults}>
-					{`No results found for this story.`}
+					No results found for
+					{(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
+						(comic && ' this comic') ||
+						(story && ' this story')}
+					.
 				</h1>
 			)}
 		</div>
