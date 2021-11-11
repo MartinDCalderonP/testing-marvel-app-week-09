@@ -4,11 +4,7 @@ import { useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import { API } from '../common/enums';
 import { capitalizeWord } from '../common/helpers';
-import {
-	IDetailProps,
-	IDetailParams,
-	IDetailFetchUrls,
-} from '../common/interfaces';
+import { IDetailProps, IDetailParams, IUrlsObject } from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import Spinner from '../components/Spinner';
 import notFoundImage from '../img/notFound.jpg';
@@ -18,7 +14,7 @@ const detailTypes = ['characters', 'comics', 'stories'];
 export default function Detail({ type }: IDetailProps) {
 	const { id } = useParams<IDetailParams>();
 
-	const fetchUrl: IDetailFetchUrls = {
+	const fetchUrl: IUrlsObject = {
 		characters: `${API.characters}/${id}?`,
 		comics: `${API.comics}/${id}?`,
 		stories: `${API.stories}/${id}?`,

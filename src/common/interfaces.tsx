@@ -37,10 +37,6 @@ export interface ICardProps {
 
 export interface ICardButtonsProps extends ICardProps {}
 
-export interface IDetailUrls {
-	[key: string]: string;
-}
-
 export interface ICharacter {
 	id: number;
 	name: string;
@@ -231,6 +227,6 @@ export interface IDetailParams {
 	id: string;
 }
 
-export interface IDetailFetchUrls {
+export interface IUrlsObject {
 	[key: string]: string;
 }
