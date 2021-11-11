@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../styles/Card.module.scss';
 import { Link } from 'react-router-dom';
 import { actionTypes, useContextState } from '../context/Context';
-import { ICard, IDetailUrls } from '../common/interfaces';
+import { ICard, IDetailUrls as ICardToDetailUrls } from '../common/interfaces';
 import { paths } from '../common/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
@@ -11,7 +11,7 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 export default function Card({ id, name, thumbnail, type }: ICard) {
 	const { state, dispatch } = useContextState();
 
-	const detailUrls: IDetailUrls = {
+	const cardToDetailUrl: ICardToDetailUrls = {
 		characters: `${paths.characters}/${id}`,
 		comics: `${paths.comics}/${id}`,
 		stories: `${paths.stories}/${id}`,
@@ -74,7 +74,7 @@ export default function Card({ id, name, thumbnail, type }: ICard) {
 
 	return (
 		<div className={`${styles.card} ${styles.appearCard}`}>
-			<Link className={styles.cardLink} to={detailUrls[type]}>
+			<Link className={styles.cardLink} to={cardToDetailUrl[type]}>
 				{imageUrl !== 'undefined.undefined' && (
 					<div className={styles.cardImage}>
 						<img src={imageUrl} alt={name} />
