@@ -36,6 +36,22 @@ export default function Select({
 		history.push(newUrl);
 	};
 
+	const showSelectOptions = () => {
+		if (!formats && isCorrectData(data).length > 0) {
+			return isCorrectData(data).map((item: IComic | IStory) => (
+				<option key={item.id} value={item.id}>
+					{item.title}
+				</option>
+			));
+		} else {
+			return comicFormats.map((item: string, index) => (
+				<option key={`formats${index}`} value={item}>
+					{item}
+				</option>
+			));
+		}
+	};
+
 	return (
 		<>
 			{!loading && (
@@ -48,18 +64,7 @@ export default function Select({
 						Select a {formats ? 'Format' : comics ? 'Comic' : 'Story'}
 					</option>
 
-					{!formats
-						? isCorrectData(data).length > 0 &&
-						  isCorrectData(data).map((item: IComic | IStory) => (
-								<option key={item.id} value={item.id}>
-									{item.title}
-								</option>
-						  ))
-						: comicFormats.map((item: string, index) => (
-								<option key={`formats${index}`} value={item}>
-									{item}
-								</option>
-						  ))}
+					{showSelectOptions()}
 				</select>
 			)}
 		</>
