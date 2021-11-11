@@ -3,12 +3,15 @@ import { Action, State, Context } from '../common/types';
 
 const initialState = {
 	bookmarks: [],
+	hiddenPosts: [],
 };
 
 export const actionTypes = {
 	ADD_BOOKMARKS: 'ADD_BOOKMARKS',
 	REMOVE_BOOKMARK: 'REMOVE_BOOKMARK',
 	CLEAR_BOOKMARKS: 'CLEAR_BOOKMARKS',
+	ADD_HIDDEN_POST: 'ADD_HIDDEN_POST',
+	CLEAR_HIDDEN_POSTS: 'CLEAR_HIDDEN_POSTS',
 };
 
 const StateContext = createContext<Context>({} as Context);
@@ -31,6 +34,18 @@ function reducer(state: State, action: Action) {
 			return {
 				...state,
 				bookmarks: [],
+			};
+
+		case actionTypes.ADD_HIDDEN_POST:
+			return {
+				...state,
+				hiddenPosts: action.hiddenPosts,
+			};
+
+		case actionTypes.CLEAR_HIDDEN_POSTS:
+			return {
+				...state,
+				hiddenPosts: [],
 			};
 
 		default:
