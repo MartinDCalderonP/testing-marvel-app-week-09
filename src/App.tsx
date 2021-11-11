@@ -67,15 +67,15 @@ export default function App() {
 				</RouteWithFooter>
 
 				<RouteWithFooter path={`${paths.characters}/:id`}>
-					<Detail character />
+					<Detail type="characters" />
 				</RouteWithFooter>
 
 				<RouteWithFooter path={`${paths.comics}/:id`}>
-					<Detail comic />
+					<Detail type="comics" />
 				</RouteWithFooter>
 
 				<RouteWithFooter path={`${paths.stories}/:id`}>
-					<Detail story />
+					<Detail type="stories" />
 				</RouteWithFooter>
 
 				<RouteWithFooter path={paths.bookmarks}>

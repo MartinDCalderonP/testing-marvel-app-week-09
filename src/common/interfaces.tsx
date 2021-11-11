@@ -221,8 +221,14 @@ export interface ISearchInput {
 	stories?: boolean;
 }
 
-export interface IDetail {
-	character?: boolean;
-	comic?: boolean;
-	story?: boolean;
+export interface IDetailProps {
+	type: string;
+}
+
+export interface IDetailParams {
+	id: string;
+}
+
+export interface IDetailFetchUrls {
+	[key: string]: string;
 }

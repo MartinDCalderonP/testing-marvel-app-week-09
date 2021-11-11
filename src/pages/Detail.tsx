@@ -3,55 +3,60 @@ import styles from '../styles/Detail.module.scss';
 import { useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import { API } from '../common/enums';
-import { IDetail } from '../common/interfaces';
+import { capitalizeWord } from '../common/helpers';
+import {
+	IDetailProps,
+	IDetailParams,
+	IDetailFetchUrls,
+} from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import Spinner from '../components/Spinner';
 
-export default function Detail({ character, comic, story }: IDetail) {
-	const { id } = useParams<{ id: string }>();
-	let fetchUrl = '';
+const detailTypes = ['characters', 'comics', 'stories'];
 
-	if (character) {
-		fetchUrl = `${API.characters}/${id}?`;
-	} else if (comic) {
-		fetchUrl = `${API.comics}/${id}?`;
-	} else if (story) {
-		fetchUrl = `${API.stories}/${id}?`;
-	}
+export default function Detail({ type }: IDetailProps) {
+	const { id } = useParams<IDetailParams>();
 
-	const { data: detailData, loading: detailLoading } = useFetch(fetchUrl);
+	const fetchUrl: IDetailFetchUrls = {
+		characters: `${API.characters}/${id}?`,
+		comics: `${API.comics}/${id}?`,
+		stories: `${API.stories}/${id}?`,
+	};
+
+	const { data, loading } = useFetch(fetchUrl[type]);
+
+	const notCurrentType = detailTypes.filter(
+		(detailType) => detailType !== type
+	);
 
 	return (
 		<div className={styles.detailPage}>
-			{detailLoading && <Spinner />}
+			{loading && <Spinner />}
 
-			{!detailLoading && detailData && (
+			{!loading && data && (
 				<>
-					<h1>
-						{isCorrectData(detailData)[0].name ||
-							isCorrectData(detailData)[0].title}
-					</h1>
+					<h1>{isCorrectData(data)[0].name || isCorrectData(data)[0].title}</h1>
 					<div className={styles.row}>
 						<div className={styles.leftColumn}>
-							{isCorrectData(detailData)[0].thumbnail && (
+							{isCorrectData(data)[0].thumbnail && (
 								<div className={styles.image}>
 									<img
 										src={
-											isCorrectData(detailData)[0].thumbnail.path +
+											isCorrectData(data)[0].thumbnail.path +
 											'.' +
-											isCorrectData(detailData)[0].thumbnail.extension
+											isCorrectData(data)[0].thumbnail.extension
 										}
 										alt={
-											isCorrectData(detailData)[0].name ||
-											isCorrectData(detailData)[0].title
+											isCorrectData(data)[0].name ||
+											isCorrectData(data)[0].title
 										}
 									/>
 								</div>
 							)}
 
-							{isCorrectData(detailData)[0].description && (
+							{isCorrectData(data)[0].description && (
 								<div className={styles.description}>
-									<p>{isCorrectData(detailData)[0].description}</p>
+									<p>{isCorrectData(data)[0].description}</p>
 								</div>
 							)}
 						</div>
@@ -64,73 +69,26 @@ export default function Detail({ character, comic, story }: IDetail) {
 
 								<p>
 									<b>Name: </b>
-									{isCorrectData(detailData)[0].name ||
-										isCorrectData(detailData)[0].title}
+									{isCorrectData(data)[0].name || isCorrectData(data)[0].title}
 								</p>
 							</div>
 						</div>
 					</div>
-					{character && (
-						<>
-							<h2>Character's Comics</h2>
+					{notCurrentType.map((detailType) => (
+						<div key={`${type}${detailType}`} className={styles.section}>
+							<h2>
+								{capitalizeWord(type)}'s {capitalizeWord(detailType)}
+							</h2>
 
 							<ul>
-								{isCorrectData(detailData)[0].comics.items.map((item: any) => (
-									<li key={item.name}>{item.name}</li>
-								))}
-							</ul>
-
-							<h2>Character's Stories</h2>
-
-							<ul>
-								{isCorrectData(detailData)[0].stories.items.map((item: any) => (
-									<li key={item.name}>{item.name}</li>
-								))}
-							</ul>
-						</>
-					)}
-					{comic && (
-						<>
-							<h2>Comic's Characters</h2>
-
-							<ul>
-								{isCorrectData(detailData)[0].characters.items.map(
-									(item: any) => (
-										<li key={item.name}>{item.name}</li>
+								{isCorrectData(data)[0]?.[detailType].items.map(
+									(item: any, index: number) => (
+										<li key={`${detailType}ListItem${index}`}>{item.name}</li>
 									)
 								)}
 							</ul>
-
-							<h2>Comic's Stories</h2>
-
-							<ul>
-								{isCorrectData(detailData)[0].stories.items.map((item: any) => (
-									<li key={item.name}>{item.name}</li>
-								))}
-							</ul>
-						</>
-					)}
-					{story && (
-						<>
-							<h2>Story's Characters</h2>
-
-							<ul>
-								{isCorrectData(detailData)[0].characters.items.map(
-									(item: any) => (
-										<li key={item.name}>{item.name}</li>
-									)
-								)}
-							</ul>
-
-							<h2>Story's Comics</h2>
-
-							<ul>
-								{isCorrectData(detailData)[0].comics.items.map((item: any) => (
-									<li key={item.name}>{item.name}</li>
-								))}
-							</ul>
-						</>
-					)}
+						</div>
+					))}
 				</>
 			)}
 		</div>
