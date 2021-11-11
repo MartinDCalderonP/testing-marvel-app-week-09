@@ -85,5 +85,6 @@ export const selectCurrentNewUrl = (
 		: comics
 		? newUrls.comics
 		: newUrls.stories;
+
 	return currentNewUrl;
 };
