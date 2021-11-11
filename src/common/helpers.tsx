@@ -106,7 +106,7 @@ export const comicsCurrentFetchUrl = (
 	};
 
 	const searchParams = searchedTerm
-		? `&${API.charactersSearch}${searchedTerm}`
+		? `&${API.comicsSearch}${searchedTerm}`
 		: '';
 
 	const currentFetchUrl = format ? fetchUrls.format : fetchUrls.default;
