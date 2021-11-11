@@ -76,15 +76,15 @@ export default function CardButtons({
 		const newHiddenPosts = { id, type };
 
 		window.localStorage.setItem(
-			'hidden',
+			'hiddenPosts',
 			JSON.stringify({
-				hiddenPosts: newHiddenPosts,
+				hiddenPosts: [...state.hiddenPosts, newHiddenPosts],
 			})
 		);
 
 		dispatch({
 			type: actionTypes.ADD_HIDDEN_POST,
-			hiddenPosts: newHiddenPosts,
+			hiddenPosts: [...state.hiddenPosts, newHiddenPosts],
 		});
 	};
 
