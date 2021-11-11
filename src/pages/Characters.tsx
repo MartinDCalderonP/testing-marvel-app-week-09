@@ -33,13 +33,10 @@ export default function Characters() {
 		history.push(newUrl);
 	};
 
-	const noResultText = () => {
-		return (
-			(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
-			(comic && ' this comic') ||
-			(story && ' this story')
-		);
-	};
+	const noResultText =
+		(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
+		(comic && ' this comic') ||
+		(story && ' this story');
 
 	return (
 		<div className={styles.characters}>
@@ -70,7 +67,7 @@ export default function Characters() {
 
 			{!loading && isCorrectData(data).length === 0 && (
 				<h1 className={styles.noResults}>
-					No results found for {noResultText()}.
+					No results found for {noResultText}.
 				</h1>
 			)}
 		</div>
