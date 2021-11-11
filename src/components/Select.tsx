@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import styles from '../styles/Select.module.scss';
 import { useHistory } from 'react-router';
 import { paths, API } from '../common/enums';
@@ -6,7 +6,7 @@ import { ISelect, IComic, IStory } from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
 
-const formats = [
+const comicFormats = [
 	'comic',
 	'magazine',
 	'trade paperback',
@@ -17,7 +17,12 @@ const formats = [
 	'infinite comic',
 ];
 
-export default function Select({ comics, stories, format }: ISelect) {
+export default function Select({
+	currentValue,
+	comics,
+	stories,
+	formats,
+}: ISelect) {
 	const fetchUrl = comics
 		? `${API.comics}?${API.limit}10`
 		: `${API.stories}?${API.limit}10`;
@@ -25,7 +30,13 @@ export default function Select({ comics, stories, format }: ISelect) {
 	const [selectedValue, setSelectedValue] = useState<string>('');
 	const history = useHistory();
 
-	const handleSelectValueChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	useEffect(() => {
+		if (currentValue) {
+			setSelectedValue(currentValue);
+		}
+	}, [currentValue]);
+
+	const handleSelectValueChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedValue(e.target.value);
 
 		let newUrl = '';
@@ -38,7 +49,7 @@ export default function Select({ comics, stories, format }: ISelect) {
 			newUrl = `${paths.characters}${paths.story}${e.target.value}${paths.page}1`;
 		}
 
-		if (format) {
+		if (formats) {
 			newUrl = `${paths.comics}${paths.format}${e.target.value}${paths.page}1`;
 		}
 
@@ -54,18 +65,18 @@ export default function Select({ comics, stories, format }: ISelect) {
 					onChange={handleSelectValueChange}
 				>
 					<option hidden>
-						Select a {format ? 'Format' : comics ? 'Comic' : 'Story'}
+						Select a {formats ? 'Format' : comics ? 'Comic' : 'Story'}
 					</option>
 
-					{!format
+					{!formats
 						? isCorrectData(data).length > 0 &&
 						  isCorrectData(data).map((item: IComic | IStory) => (
 								<option key={item.id} value={item.id}>
 									{item.title}
 								</option>
 						  ))
-						: formats.map((item: string, index) => (
-								<option key={`format${index}`} value={item}>
+						: comicFormats.map((item: string, index) => (
+								<option key={`formats${index}`} value={item}>
 									{item}
 								</option>
 						  ))}

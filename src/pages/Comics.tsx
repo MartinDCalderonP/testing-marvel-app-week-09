@@ -45,7 +45,7 @@ export default function Comics() {
 		<div className={styles.comics}>
 			<SearchInput comics />
 
-			<Select comics format />
+			<Select currentValue={format} comics formats />
 
 			{loading && <Spinner />}
 

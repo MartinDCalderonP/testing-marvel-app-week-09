@@ -100,9 +100,10 @@ export interface IUseParams {
 }
 
 export interface ISelect {
+	currentValue: string;
 	comics?: boolean;
 	stories?: boolean;
-	format?: boolean;
+	formats?: boolean;
 }
 
 export interface IComic {

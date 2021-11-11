@@ -42,9 +42,9 @@ export default function Characters() {
 		<div className={styles.characters}>
 			<SearchInput characters />
 
-			<Select comics />
+			<Select currentValue={comic} comics />
 
-			<Select stories />
+			<Select currentValue={story} stories />
 
 			{loading && <Spinner />}
 
