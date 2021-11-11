@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/Characters.module.scss';
 import { useParams, useHistory } from 'react-router';
-import { currentFetchUrl, currentNewUrl } from '../common/helpers';
+import { charactersCurrentFetchUrl, charactersCurrentNewUrl } from '../common/helpers';
 import { IUseParams } from '../common/interfaces';
 import { isCorrectData, hasTotal } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
@@ -15,7 +15,7 @@ export default function Characters() {
 	const { page, searchedTerm, comic, story } = useParams<IUseParams>();
 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
 	const postsPerPage = 8;
-	const fetchUrl = currentFetchUrl(
+	const fetchUrl = charactersCurrentFetchUrl(
 		currentPage,
 		postsPerPage,
 		searchedTerm,
@@ -28,7 +28,7 @@ export default function Characters() {
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 
-		const newUrl = currentNewUrl(pageNumber, searchedTerm, comic, story);
+		const newUrl = charactersCurrentNewUrl(pageNumber, searchedTerm, comic, story);
 
 		history.push(newUrl);
 	};
