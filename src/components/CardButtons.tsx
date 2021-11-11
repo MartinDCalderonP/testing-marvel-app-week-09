@@ -73,7 +73,7 @@ export default function CardButtons({
 	const handleHidePost = (e: any) => {
 		e.preventDefault();
 
-		const newHiddenPosts = { id, type };
+		const newHiddenPosts = { id, name };
 
 		window.localStorage.setItem(
 			'hiddenPosts',
