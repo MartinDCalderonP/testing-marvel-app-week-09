@@ -127,3 +127,26 @@ export const comicsCurrentNewUrl = (
 
 	return currentNewUrl;
 };
+
+export const storiesCurrentFetchUrl = (
+	currentPage: number,
+	postsPerPage: number
+): string => {
+	const offset = postsPerPage * (currentPage - 1);
+
+	return `${API.stories}?${API.limit}${postsPerPage}&${API.offset}${offset}`;
+};
+
+export const storiesCurrentNewUrl = (
+	searchedTerm: string,
+	pageNumber: number
+) => {
+	const newUrls: IUrlsObject = {
+		default: `${paths.stories}${paths.page}${pageNumber}`,
+		searchedTerm: `${paths.stories}${paths.search}${searchedTerm}${paths.page}${pageNumber}`,
+	};
+
+	const currentNewUrl = searchedTerm ? newUrls.searchedTerm : newUrls.default;
+
+	return currentNewUrl;
+};

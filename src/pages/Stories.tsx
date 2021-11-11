@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../styles/Stories.module.scss';
 import { useParams, useHistory } from 'react-router';
-import { paths, API } from '../common/enums';
+import {
+	storiesCurrentFetchUrl,
+	storiesCurrentNewUrl,
+} from '../common/helpers';
 import { IUseParams } from '../common/interfaces';
 import { isCorrectData, hasTotal } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
@@ -14,24 +17,29 @@ export default function Stories() {
 	const { page, searchedTerm } = useParams<IUseParams>();
 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
 	const postsPerPage = 8;
-	const offset = postsPerPage * (currentPage - 1);
-	const fetchUrl =
-		`${API.stories}?${API.limit}${postsPerPage}&${API.offset}${offset}` +
-		(searchedTerm ? `&${API.storiesSearch}${searchedTerm}` : '');
+	const fetchUrl = storiesCurrentFetchUrl(currentPage, postsPerPage);
 	const { data, loading } = useFetch(fetchUrl);
 	const history = useHistory();
+
+	const searchedPosts = isCorrectData(data)?.filter((story: any) =>
+		story.title.toLowerCase().includes(searchedTerm?.toLowerCase())
+	);
+
+	const currentPosts = searchedTerm ? searchedPosts : isCorrectData(data);
+
+	const currentTotal = searchedTerm ? currentPosts?.length : hasTotal(data);
 
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 
-		let newUrl = `${paths.stories}${paths.page}${pageNumber}`;
-
-		if (searchedTerm) {
-			newUrl = `${paths.stories}${paths.search}${searchedTerm}${paths.page}${pageNumber}`;
-		}
+		const newUrl = storiesCurrentNewUrl(searchedTerm, pageNumber);
 
 		history.push(newUrl);
 	};
+
+	const noResultsText =
+		(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
+		' stories section';
 
 	return (
 		<div className={styles.stories}>
@@ -39,16 +47,16 @@ export default function Stories() {
 
 			{loading && <Spinner />}
 
-			{!loading && isCorrectData(data).length > 0 && (
+			{!loading && currentPosts.length > 0 && (
 				<>
 					<CardsContainer
 						loading={loading}
-						posts={isCorrectData(data)}
+						posts={currentPosts}
 						type="stories"
 					/>
 
 					<PaginationButtons
-						totalPosts={hasTotal(data)}
+						totalPosts={currentTotal}
 						postsPerPage={postsPerPage}
 						paginate={handlePaginate}
 						currentPage={currentPage}
@@ -56,9 +64,9 @@ export default function Stories() {
 				</>
 			)}
 
-			{!loading && searchedTerm && isCorrectData(data).length === 0 && (
+			{!loading && currentPosts.length === 0 && (
 				<h1 className={styles.noResults}>
-					{`No results found for "${searchedTerm.replaceAll('+', ' ')}".`}
+					No results found for {noResultsText}.
 				</h1>
 			)}
 		</div>
