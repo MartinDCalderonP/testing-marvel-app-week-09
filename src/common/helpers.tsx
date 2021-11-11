@@ -17,12 +17,14 @@ export const charactersCurrentFetchUrl = (
 	const commonFetchParams = `${API.limit}${postsPerPage}&${API.offset}${offset}`;
 
 	const fetchUrls: IUrlsObject = {
-		default:
-			`${API.characters}?${commonFetchParams}` +
-			(searchedTerm ? `&${API.charactersSearch}${searchedTerm}` : ''),
+		default: `${API.characters}?${commonFetchParams}`,
 		comic: `${API.comics}/${comic}${paths.characters}?${commonFetchParams}`,
 		story: `${API.stories}/${story}${paths.characters}?${commonFetchParams}`,
 	};
+
+	const searchParams = searchedTerm
+		? `&${API.charactersSearch}${searchedTerm}`
+		: '';
 
 	const currentFetchUrl = comic
 		? fetchUrls.comic
@@ -30,7 +32,7 @@ export const charactersCurrentFetchUrl = (
 		? fetchUrls.story
 		: fetchUrls.default;
 
-	return currentFetchUrl;
+	return currentFetchUrl + searchParams;
 };
 
 export const charactersCurrentNewUrl = (
