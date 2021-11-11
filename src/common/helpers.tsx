@@ -90,3 +90,40 @@ export const selectCurrentNewUrl = (
 
 	return currentNewUrl;
 };
+
+export const comicsCurrentFetchUrl = (
+	currentPage: number,
+	postsPerPage: number,
+	searchedTerm: string,
+	format: string
+): string => {
+	const offset = postsPerPage * (currentPage - 1);
+	const commonFetchParams = `${API.limit}${postsPerPage}&${API.offset}${offset}`;
+
+	const fetchUrls: IUrlsObject = {
+		default: `${API.comics}?${commonFetchParams}`,
+		format: `${API.comics}?${API.format}${format}&${commonFetchParams}`,
+	};
+
+	const searchParams = searchedTerm
+		? `&${API.charactersSearch}${searchedTerm}`
+		: '';
+
+	const currentFetchUrl = format ? fetchUrls.format : fetchUrls.default;
+
+	return currentFetchUrl + searchParams;
+};
+
+export const comicsCurrentNewUrl = (
+	searchedTerm: string,
+	pageNumber: number
+) => {
+	const newUrls: IUrlsObject = {
+		default: `${paths.comics}${paths.page}${pageNumber}`,
+		searchedTerm: `${paths.comics}${paths.search}${searchedTerm}${paths.page}${pageNumber}`,
+	};
+
+	const currentNewUrl = searchedTerm ? newUrls.searchedTerm : newUrls.default;
+
+	return currentNewUrl;
+};

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/Comics.module.scss';
 import { useParams, useHistory } from 'react-router';
-import { paths, API } from '../common/enums';
+import { comicsCurrentFetchUrl, comicsCurrentNewUrl } from '../common/helpers';
 import { IUseParams } from '../common/interfaces';
 import { isCorrectData, hasTotal } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
@@ -15,28 +15,19 @@ export default function Comics() {
 	const { page, searchedTerm, format } = useParams<IUseParams>();
 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
 	const postsPerPage = 8;
-	const offset = postsPerPage * (currentPage - 1);
-	let fetchUrl = '';
-
-	if (format) {
-		fetchUrl = `${API.comics}?${API.format}${format}&${API.limit}${postsPerPage}&${API.offset}${offset}`;
-	} else {
-		fetchUrl =
-			`${API.comics}?${API.limit}${postsPerPage}&${API.offset}${offset}` +
-			(searchedTerm ? `&${API.comicsSearch}${searchedTerm}` : '');
-	}
-
+	const fetchUrl = comicsCurrentFetchUrl(
+		currentPage,
+		postsPerPage,
+		searchedTerm,
+		format
+	);
 	const { data, loading } = useFetch(fetchUrl);
 	const history = useHistory();
 
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 
-		let newUrl = `${paths.comics}${paths.page}${pageNumber}`;
-
-		if (searchedTerm) {
-			newUrl = `${paths.comics}${paths.search}${searchedTerm}${paths.page}${pageNumber}`;
-		}
+		const newUrl = comicsCurrentNewUrl(searchedTerm, pageNumber);
 
 		history.push(newUrl);
 	};
@@ -70,9 +61,9 @@ export default function Comics() {
 				</>
 			)}
 
-			{!loading && searchedTerm && isCorrectData(data).length === 0 && (
+			{!loading && isCorrectData(data).length === 0 && (
 				<h1 className={styles.noResults}>
-					{`No results found for "${searchedTerm.replaceAll('+', ' ')}".`}
+					No results found for {noResultsText}.
 				</h1>
 			)}
 		</div>
