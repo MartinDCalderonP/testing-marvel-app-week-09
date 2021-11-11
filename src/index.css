@@ -2,9 +2,8 @@
 
 :root {
 	--backgroundColor: #151515;
+	--hoverBackgroundColor: #212529;
 	--textColor: #ffffff;
-	--innerBackgroundColor: #ffffff;
-	--innerTextColor: #151515;
 	--detailsColor: darkred;
 	--hoverDetailsColor: #ec1d24;
 }
