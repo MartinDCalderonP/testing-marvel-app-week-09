@@ -36,7 +36,8 @@ export default function Characters() {
 	const noResultsText =
 		(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
 		(comic && ' this comic') ||
-		(story && ' this story');
+		(story && ' this story') ||
+		' characters section';
 
 	return (
 		<div className={styles.characters}>
