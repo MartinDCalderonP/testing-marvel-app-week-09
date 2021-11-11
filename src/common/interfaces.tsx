@@ -25,7 +25,7 @@ export interface IPaginationButtons<T> {
 	currentPage: T;
 }
 
-export interface ICard {
+export interface ICardProps {
 	id: number;
 	name: string;
 	thumbnail: {
@@ -34,6 +34,8 @@ export interface ICard {
 	};
 	type: string;
 }
+
+export interface ICardButtonsProps extends ICardProps {}
 
 export interface IDetailUrls {
 	[key: string]: string;
