@@ -41,6 +41,10 @@ export default function Comics() {
 		history.push(newUrl);
 	};
 
+	const noResultsText =
+		(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
+		' comics section';
+
 	return (
 		<div className={styles.comics}>
 			<SearchInput comics />
