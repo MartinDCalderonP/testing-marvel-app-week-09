@@ -41,7 +41,7 @@ export const currentNewUrl = (
 ): string => {
 	const paginationParams = `${paths.page}${pageNumber}`;
 
-	const newUrl: IUrlsObject = {
+	const newUrls: IUrlsObject = {
 		default: `${paths.characters}${paginationParams}`,
 		searchedTerm: `${paths.search}${searchedTerm}${paginationParams}`,
 		comic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
@@ -49,12 +49,12 @@ export const currentNewUrl = (
 	};
 
 	const currentNewUrl = searchedTerm
-		? newUrl.searchedTerm
+		? newUrls.searchedTerm
 		: comic
-		? newUrl.comic
+		? newUrls.comic
 		: story
-		? newUrl.story
-		: newUrl.default;
+		? newUrls.story
+		: newUrls.default;
 
 	return currentNewUrl;
 };
