@@ -16,19 +16,21 @@ export default function SearchInput({
 	const history = useHistory();
 
 	const searchTerm = (term: string) => {
-		let section = '';
+		if (term !== '') {
+			let section = '';
 
-		if (characters) {
-			section = paths.characters;
-		} else if (comics) {
-			section = paths.comics;
-		} else if (stories) {
-			section = paths.stories;
+			if (characters) {
+				section = paths.characters;
+			} else if (comics) {
+				section = paths.comics;
+			} else if (stories) {
+				section = paths.stories;
+			}
+
+			history.push(
+				`${section}${paths.search}${term.replaceAll(' ', '+')}${paths.page}1`
+			);
 		}
-
-		history.push(
-			`${section}${paths.search}${term.replaceAll(' ', '+')}${paths.page}1`
-		);
 	};
 
 	const handleSearchedTermChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,10 +48,7 @@ export default function SearchInput({
 
 	const handleSearchButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-
-		if (searchedTerm !== '') {
-			searchTerm(searchedTerm);
-		}
+		searchTerm(searchedTerm);
 	};
 
 	return (
