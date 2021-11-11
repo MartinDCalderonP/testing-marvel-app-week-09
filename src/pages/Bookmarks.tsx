@@ -28,7 +28,7 @@ export default function Bookmarks() {
 			{bookmarksTypes.map(
 				(type) =>
 					filterBookmarks(type).length > 0 && (
-						<div className={styles.section} key={`${type}Bookmarks`}>
+						<div key={`${type}Bookmarks`} className={styles.section} >
 							<h2 key={`${type}Title`}>{capitalizeWord(type)}</h2>
 
 							<CardsContainer

@@ -23,11 +23,11 @@ export default function PaginationButtons<T>({
 		<div className={styles.buttonsContainer}>
 			{pagesNumbers?.map((pageNumber: number) => (
 				<button
+					key={`paginationButton${pageNumber}`}
 					className={
 						styles.pageButton +
 						(+currentPage === pageNumber ? ` ${styles.active}` : '')
 					}
-					key={`paginationButton${pageNumber}`}
 					onClick={() => handlePageButtonClick(pageNumber)}
 				>
 					{pageNumber}
