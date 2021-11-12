@@ -6,6 +6,16 @@ export const capitalizeWord = (word: string) => {
 	return word[0].toUpperCase() + word.substr(1).toLowerCase();
 };
 
+export const cardNavigationUrl = (id: number, type: string): string => {
+	const navigationUrls: IObjects = {
+		characters: `${paths.characters}/${id}`,
+		comics: `${paths.comics}/${id}`,
+		stories: `${paths.stories}/${id}`,
+	};
+
+	return navigationUrls[type];
+};
+
 export const sectionFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
