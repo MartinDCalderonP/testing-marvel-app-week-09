@@ -101,9 +101,7 @@ export interface IUseParams {
 
 export interface ISelect {
 	currentValue: string;
-	comics?: boolean;
-	stories?: boolean;
-	formats?: boolean;
+	type: string;
 }
 
 export interface IComic {
@@ -214,10 +212,8 @@ export interface IPostId {
 	postId: string;
 }
 
-export interface ISearchInput {
-	characters?: boolean;
-	comics?: boolean;
-	stories?: boolean;
+export interface ISearchInputProps {
+	type: string;
 }
 
 export interface IDetailProps {
@@ -228,6 +224,10 @@ export interface IDetailParams {
 	id: string;
 }
 
-export interface IUrlsObject {
+export interface IObjects {
 	[key: string]: string;
+}
+
+export interface ISectionProps {
+	type: string;
 }
