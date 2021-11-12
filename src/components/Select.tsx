@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import styles from '../styles/Select.module.scss';
 import { useHistory } from 'react-router';
 import {
-	selectNewUrl,
+	selectNavigationUrl,
 	selectFetchUrl,
 	selectPlaceholder,
 } from '../common/helpers';
@@ -30,7 +30,7 @@ export default function Select({ currentValue, type }: ISelect) {
 	const handleSelectValueChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedValue(e.target.value);
 
-		const newUrl = selectNewUrl(e.target.value, type);
+		const newUrl = selectNavigationUrl(e.target.value, type);
 
 		history.push(newUrl);
 	};
