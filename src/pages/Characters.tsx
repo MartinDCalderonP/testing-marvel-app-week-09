@@ -1,84 +1,90 @@
 import React, { useState } from 'react';
-import styles from '../styles/Characters.module.scss';
-import { useParams, useHistory } from 'react-router';
-import {
-	charactersCurrentFetchUrl,
-	charactersCurrentNewUrl,
-} from '../common/helpers';
-import { IUseParams } from '../common/interfaces';
-import { isCorrectData, hasTotal } from '../common/typeGuards';
-import useFetch from '../hooks/useFetch';
-import SearchInput from '../components/SearchInput';
-import Select from '../components/Select';
-import Spinner from '../components/Spinner';
-import CardsContainer from '../components/CardsContainer';
-import PaginationButtons from '../components/PaginationButtons';
+// import styles from '../styles/Characters.module.scss';
+// import { useParams, useHistory } from 'react-router';
+// // import { useContextState } from '../context/Context';
+// import {
+// 	charactersCurrentFetchUrl,
+// 	charactersCurrentNewUrl,
+// } from '../common/helpers';
+// import { IUseParams } from '../common/interfaces';
+// import { isCorrectData, hasTotal } from '../common/typeGuards';
+// import useFetch from '../hooks/useFetch';
+// import SearchInput from '../components/SearchInput';
+// import Select from '../components/Select';
+// import Spinner from '../components/Spinner';
+// import CardsContainer from '../components/CardsContainer';
+// import PaginationButtons from '../components/PaginationButtons';
 
-export default function Characters() {
-	const { page, searchedTerm, comic, story } = useParams<IUseParams>();
-	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
-	const postsPerPage = 8;
-	const fetchUrl = charactersCurrentFetchUrl(
-		currentPage,
-		postsPerPage,
-		searchedTerm,
-		comic,
-		story
-	);
-	const { data, loading } = useFetch(fetchUrl);
-	const history = useHistory();
+// export default function Characters() {
+// 	const { page, searchedTerm, comic, story } = useParams<IUseParams>();
+// 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
+// 	const postsPerPage = 8;
+// 	const fetchUrl = charactersCurrentFetchUrl(
+// 		currentPage,
+// 		postsPerPage,
+// 		searchedTerm,
+// 		comic,
+// 		story
+// 	);
+// 	const { data, loading } = useFetch(fetchUrl);
+// 	const history = useHistory();
+// 	// const { state } = useContextState();
 
-	const handlePaginate = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
+// 	// const filterHiddenPosts = isCorrectData(data)?.filter((item: any) => {
+// 	// 	return !state.hiddenPosts.includes(item.id);
+// 	// });
 
-		const newUrl = charactersCurrentNewUrl(
-			pageNumber,
-			searchedTerm,
-			comic,
-			story
-		);
+// 	const handlePaginate = (pageNumber: number) => {
+// 		setCurrentPage(pageNumber);
 
-		history.push(newUrl);
-	};
+// 		const newUrl = charactersCurrentNewUrl(
+// 			pageNumber,
+// 			searchedTerm,
+// 			comic,
+// 			story
+// 		);
 
-	const noResultsText =
-		(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
-		(comic && ' this comic') ||
-		(story && ' this story') ||
-		' characters section';
+// 		history.push(newUrl);
+// 	};
 
-	return (
-		<div className={styles.characters}>
-			<SearchInput type='characters' />
+// 	const noResultsText =
+// 		(searchedTerm && ` "${searchedTerm.replaceAll('+', ' ')}"`) ||
+// 		(comic && ' this comic') ||
+// 		(story && ' this story') ||
+// 		' characters section';
 
-			<Select currentValue={comic} comics />
+// 	return (
+// 		<div className={styles.characters}>
+// 			<SearchInput type='characters' />
 
-			<Select currentValue={story} stories />
+// 			<Select currentValue={comic} comics />
 
-			{loading && <Spinner />}
+// 			<Select currentValue={story} stories />
 
-			{!loading && isCorrectData(data).length > 0 && (
-				<>
-					<CardsContainer
-						loading={loading}
-						posts={isCorrectData(data)}
-						type="characters"
-					/>
+// 			{loading && <Spinner />}
 
-					<PaginationButtons
-						totalPosts={hasTotal(data)}
-						postsPerPage={postsPerPage}
-						paginate={handlePaginate}
-						currentPage={currentPage}
-					/>
-				</>
-			)}
+// 			{!loading && isCorrectData(data).length > 0 && (
+// 				<>
+// 					<CardsContainer
+// 						loading={loading}
+// 						posts={isCorrectData(data)}
+// 						type="characters"
+// 					/>
 
-			{!loading && isCorrectData(data).length === 0 && (
-				<h1 className={styles.noResults}>
-					No results found for {noResultsText}.
-				</h1>
-			)}
-		</div>
-	);
-}
+// 					<PaginationButtons
+// 						totalPosts={hasTotal(data)}
+// 						postsPerPage={postsPerPage}
+// 						paginate={handlePaginate}
+// 						currentPage={currentPage}
+// 					/>
+// 				</>
+// 			)}
+
+// 			{!loading && isCorrectData(data).length === 0 && (
+// 				<h1 className={styles.noResults}>
+// 					No results found for {noResultsText}.
+// 				</h1>
+// 			)}
+// 		</div>
+// 	);
+// }

@@ -1,101 +1,110 @@
 import { API, paths } from './enums';
-import { IUrlsObject } from './interfaces';
+import { IObjects } from './interfaces';
 
 export const capitalizeWord = (word: string) => {
 	if (!word) return word;
 	return word[0].toUpperCase() + word.substr(1).toLowerCase();
 };
 
-export const charactersCurrentFetchUrl = (
+export const sectionFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
 	searchedTerm: string,
 	comic: string,
-	story: string
+	story: string,
+	format: string,
+	type: string
 ): string => {
 	const offset = postsPerPage * (currentPage - 1);
-	const commonFetchParams = `${API.limit}${postsPerPage}&${API.offset}${offset}`;
+	const paginationParams = `${API.limit}${postsPerPage}&${API.offset}${offset}`;
 
-	const fetchUrls: IUrlsObject = {
-		default: `${API.characters}?${commonFetchParams}`,
-		comic: `${API.comics}/${comic}${paths.characters}?${commonFetchParams}`,
-		story: `${API.stories}/${story}${paths.characters}?${commonFetchParams}`,
+	const charactersFetchUrls: IObjects = {
+		default: `${API.characters}?${paginationParams}`,
+		searchedTerm: `${API.characters}?${paginationParams}&${API.charactersSearch}${searchedTerm}`,
+		comic: `${API.comics}/${comic}${paths.characters}?${paginationParams}`,
+		story: `${API.stories}/${story}${paths.characters}?${paginationParams}`,
 	};
 
-	const searchParams = searchedTerm
-		? `&${API.charactersSearch}${searchedTerm}`
-		: '';
+	const comicsFetchUrls: IObjects = {
+		default: `${API.comics}?${paginationParams}`,
+		searchedTerm: `${API.comics}?${paginationParams}&${API.comicsSearch}${searchedTerm}`,
+		format: `${API.comics}?${API.format}${format}&${paginationParams}`,
+	};
 
-	const currentFetchUrl = comic
-		? fetchUrls.comic
-		: story
-		? fetchUrls.story
-		: fetchUrls.default;
+	const storiesFetchUrls: IObjects = {
+		default: `${API.stories}?${paginationParams}`,
+	};
 
-	return currentFetchUrl + searchParams;
+	if (type === 'characters') {
+		return searchedTerm
+			? charactersFetchUrls.searchedTerm
+			: comic
+			? charactersFetchUrls.comic
+			: story
+			? charactersFetchUrls.story
+			: charactersFetchUrls.default;
+	}
+
+	if (type === 'comics') {
+		return searchedTerm
+			? comicsFetchUrls.searchedTerm
+			: format
+			? comicsFetchUrls.format
+			: comicsFetchUrls.default;
+	}
+
+	if (type === 'stories') {
+		return storiesFetchUrls.default;
+	}
+
+	return '';
 };
 
-export const charactersCurrentNewUrl = (
+export const sectionPaginationUrl = (
 	pageNumber: number,
 	searchedTerm: string,
 	comic: string,
-	story: string
+	story: string,
+	format: string,
+	type: string
 ): string => {
 	const paginationParams = `${paths.page}${pageNumber}`;
+	const searchParams = `${paths.search}${searchedTerm}`;
 
-	const newUrls: IUrlsObject = {
-		default: `${paths.characters}${paginationParams}`,
-		searchedTerm: `${paths.characters}${paths.search}${searchedTerm}${paginationParams}`,
-		comic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
-		story: `${paths.characters}${paths.story}${story}${paginationParams}`,
+	const newUrls: IObjects = {
+		characters: `${paths.characters}${paginationParams}`,
+		charactersBySearch: `${paths.characters}${searchParams}${paginationParams}`,
+		charactersByComic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
+		charactersByStory: `${paths.characters}${paths.story}${story}${paginationParams}`,
+		comics: `${paths.comics}${paginationParams}`,
+		comicsBySearch: `${paths.comics}${searchParams}${paginationParams}`,
+		comicsByFormat: `${paths.comics}${paths.format}${format}${paginationParams}`,
+		stories: `${paths.stories}${paginationParams}`,
+		storiesBySearch: `${paths.stories}${searchParams}${paginationParams}`,
 	};
 
-	const currentNewUrl = searchedTerm
-		? newUrls.searchedTerm
-		: comic
-		? newUrls.comic
-		: story
-		? newUrls.story
-		: newUrls.default;
-
-	return currentNewUrl;
+	return newUrls[type];
 };
 
-export const comicsCurrentFetchUrl = (
-	currentPage: number,
-	postsPerPage: number,
+export const sectionNoResultsText = (
 	searchedTerm: string,
-	format: string
+	type: string
 ): string => {
-	const offset = postsPerPage * (currentPage - 1);
-	const commonFetchParams = `${API.limit}${postsPerPage}&${API.offset}${offset}`;
+	const noResultForSearchedTerm = ` "${searchedTerm.replaceAll('+', ' ')}"`;
 
-	const fetchUrls: IUrlsObject = {
-		default: `${API.comics}?${commonFetchParams}`,
-		format: `${API.comics}?${API.format}${format}&${commonFetchParams}`,
+	const noResultsTexts: IObjects = {
+		characters: ' characters section',
+		charactersBySearch: noResultForSearchedTerm,
+		charactersByComic: ' this comic',
+		charactersByStory: 'this story',
+		comics: ' comics section',
+		comicsBySearch: noResultForSearchedTerm,
+		comicsByFormat: ' this format',
+		stories: ' stories section',
+		storiesBySearch: noResultForSearchedTerm,
 	};
 
-	const searchParams = searchedTerm
-		? `&${API.comicsSearch}${searchedTerm}`
-		: '';
-
-	const currentFetchUrl = format ? fetchUrls.format : fetchUrls.default;
-
-	return currentFetchUrl + searchParams;
-};
-
-export const comicsCurrentNewUrl = (
-	searchedTerm: string,
-	pageNumber: number
-) => {
-	const newUrls: IUrlsObject = {
-		default: `${paths.comics}${paths.page}${pageNumber}`,
-		searchedTerm: `${paths.comics}${paths.search}${searchedTerm}${paths.page}${pageNumber}`,
-	};
-
-	const currentNewUrl = searchedTerm ? newUrls.searchedTerm : newUrls.default;
-
-	return currentNewUrl;
+	return noResultsTexts[type];
 };
 
 export const selectFetchUrl = (type: string) => {

@@ -4,9 +4,7 @@ import { paths } from './common/enums';
 import RouteWithoutFooter from './components/RouteWithoutFooter';
 import RouteWithFooter from './components/RouteWithFooter';
 import Home from './pages/Home';
-import Characters from './pages/Characters';
-import Comics from './pages/Comics';
-import Stories from './pages/Stories';
+import Section from './pages/Section';
 import Detail from './pages/Detail';
 import Bookmarks from './pages/Bookmarks';
 
@@ -19,51 +17,51 @@ export default function App() {
 				</RouteWithoutFooter>
 
 				<RouteWithFooter path={`${paths.characters}${paths.page}:page`}>
-					<Characters />
-				</RouteWithFooter>
-
-				<RouteWithFooter
-					path={`${paths.characters}${paths.comic}:comic${paths.page}:page`}
-				>
-					<Characters />
-				</RouteWithFooter>
-
-				<RouteWithFooter
-					path={`${paths.characters}${paths.story}:story${paths.page}:page`}
-				>
-					<Characters />
-				</RouteWithFooter>
-
-				<RouteWithFooter path={`${paths.comics}${paths.page}:page`}>
-					<Comics />
-				</RouteWithFooter>
-
-				<RouteWithFooter
-					path={`${paths.comics}${paths.format}:format${paths.page}:page`}
-				>
-					<Comics />
-				</RouteWithFooter>
-
-				<RouteWithFooter path={`${paths.stories}${paths.page}:page`}>
-					<Stories />
+					<Section type="characters" />
 				</RouteWithFooter>
 
 				<RouteWithFooter
 					path={`${paths.characters}${paths.search}:searchedTerm${paths.page}:page`}
 				>
-					<Characters />
+					<Section type="characters" />
+				</RouteWithFooter>
+
+				<RouteWithFooter
+					path={`${paths.characters}${paths.comic}:comic${paths.page}:page`}
+				>
+					<Section type="characters" />
+				</RouteWithFooter>
+
+				<RouteWithFooter
+					path={`${paths.characters}${paths.story}:story${paths.page}:page`}
+				>
+					<Section type="characters" />
+				</RouteWithFooter>
+
+				<RouteWithFooter path={`${paths.comics}${paths.page}:page`}>
+					<Section type="comics" />
 				</RouteWithFooter>
 
 				<RouteWithFooter
 					path={`${paths.comics}${paths.search}:searchedTerm${paths.page}:page`}
 				>
-					<Comics />
+					<Section type="comics" />
+				</RouteWithFooter>
+
+				<RouteWithFooter
+					path={`${paths.comics}${paths.format}:format${paths.page}:page`}
+				>
+					<Section type="comics" />
+				</RouteWithFooter>
+
+				<RouteWithFooter path={`${paths.stories}${paths.page}:page`}>
+					<Section type="stories" />
 				</RouteWithFooter>
 
 				<RouteWithFooter
 					path={`${paths.stories}${paths.search}:searchedTerm${paths.page}:page`}
 				>
-					<Stories />
+					<Section type="stories" />
 				</RouteWithFooter>
 
 				<RouteWithFooter path={`${paths.characters}/:id`}>
