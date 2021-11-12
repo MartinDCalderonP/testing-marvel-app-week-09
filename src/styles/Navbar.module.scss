@@ -19,5 +19,11 @@
 
 	.active {
 		color: var(--hoverDetailsColor);
+
+		svg {
+			path {
+				fill: var(--hoverDetailsColor);
+			}
+		}
 	}
 }
