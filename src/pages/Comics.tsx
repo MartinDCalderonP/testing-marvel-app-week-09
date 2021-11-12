@@ -38,7 +38,7 @@ export default function Comics() {
 
 	return (
 		<div className={styles.comics}>
-			<SearchInput comics />
+			<SearchInput type='comics' />
 
 			<Select currentValue={format} comics formats />
 

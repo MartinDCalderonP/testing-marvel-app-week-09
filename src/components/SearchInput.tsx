@@ -3,32 +3,26 @@ import styles from '../styles/SearchInput.module.scss';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { paths } from '../common/enums';
-import { ISearchInput } from '../common/interfaces';
+import { IObjects, ISearchInputProps } from '../common/interfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-export default function SearchInput({
-	characters,
-	comics,
-	stories,
-}: ISearchInput) {
+export default function SearchInput({ type }: ISearchInputProps) {
 	const [searchedTerm, setSearchedTerm] = useState<string>('');
 	const history = useHistory();
 
 	const searchTerm = (term: string) => {
 		if (term !== '') {
-			let section = '';
+			const termToPath = term.replaceAll(' ', '+');
 
-			if (characters) {
-				section = paths.characters;
-			} else if (comics) {
-				section = paths.comics;
-			} else if (stories) {
-				section = paths.stories;
-			}
+			const sections: IObjects = {
+				characters: paths.characters,
+				comics: paths.comics,
+				stories: paths.stories,
+			};
 
 			history.push(
-				`${section}${paths.search}${term.replaceAll(' ', '+')}${paths.page}1`
+				`${sections[type]}${paths.search}${termToPath}${paths.page}1`
 			);
 		}
 	};

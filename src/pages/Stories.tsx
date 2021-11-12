@@ -43,7 +43,7 @@ export default function Stories() {
 
 	return (
 		<div className={styles.stories}>
-			<SearchInput stories />
+			<SearchInput type="stories" />
 
 			{loading && <Spinner />}
 

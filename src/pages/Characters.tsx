@@ -49,7 +49,7 @@ export default function Characters() {
 
 	return (
 		<div className={styles.characters}>
-			<SearchInput characters />
+			<SearchInput type='characters' />
 
 			<Select currentValue={comic} comics />
 
