@@ -8,41 +8,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default function SearchInput({ type }: ISearchInputProps) {
-	const [searchedTerm, setSearchedTerm] = useState<string>('');
+	const [query, setQuery] = useState<string>('');
 	const history = useHistory();
 
-	const searchTerm = (term: string) => {
-		if (term !== '') {
-			const navigationUrl = searchNavigationUrl(term, type);
+	const searchQuery = (query: string) => {
+		if (query !== '') {
+			const navigationUrl = searchNavigationUrl(query, type);
 
 			history.push(navigationUrl);
 		}
 	};
 
-	const handleSearchedTermChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setSearchedTerm(e.target.value);
-		debounceSearchedTerm(e.target.value);
+	const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setQuery(e.target.value);
+		debounceQuery(e.target.value);
 	};
 
 	// eslint-disable-next-line
-	const debounceSearchedTerm = useCallback(
+	const debounceQuery = useCallback(
 		_.debounce((term) => {
-			searchTerm(term);
+			searchQuery(term);
 		}, 500),
-		[searchTerm]
+		[searchQuery]
 	);
 
 	const handleSearchButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		searchTerm(searchedTerm);
+		searchQuery(query);
 	};
 
 	return (
 		<form className={styles.searchForm} autoComplete="off">
 			<div className={styles.searchInput}>
 				<input
-					value={searchedTerm}
-					onChange={handleSearchedTermChange}
+					value={query}
+					onChange={handleQueryChange}
 					type="text"
 					name="search"
 					placeholder="Search"

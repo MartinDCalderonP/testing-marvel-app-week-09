@@ -16,13 +16,13 @@ import CardsContainer from '../components/CardsContainer';
 import PaginationButtons from '../components/PaginationButtons';
 
 export default function Section({ type }: ISectionProps) {
-	const { page, searchedTerm, comic, story, format } = useParams<ISectionParams>();
+	const { page, query, comic, story, format } = useParams<ISectionParams>();
 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
 	const postsPerPage = 8;
 	const fetchUrl = sectionFetchUrl(
 		currentPage,
 		postsPerPage,
-		searchedTerm,
+		query,
 		comic,
 		story,
 		format,
@@ -34,21 +34,21 @@ export default function Section({ type }: ISectionProps) {
 	const searchedPosts =
 		type === 'stories' &&
 		isCorrectData(data)?.filter((story: any) =>
-			story.title.toLowerCase().includes(searchedTerm?.toLowerCase())
+			story.title.toLowerCase().includes(query?.toLowerCase())
 		);
 
 	const currentPosts =
-		type === 'stories' && searchedTerm ? searchedPosts : isCorrectData(data);
+		type === 'stories' && query ? searchedPosts : isCorrectData(data);
 
 	const currentTotal =
-		type === 'stories' && searchedTerm ? currentPosts?.length : hasTotal(data);
+		type === 'stories' && query ? currentPosts?.length : hasTotal(data);
 
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 
 		const newUrl = sectionPaginationUrl(
 			pageNumber,
-			searchedTerm,
+			query,
 			comic,
 			story,
 			format,
@@ -58,13 +58,7 @@ export default function Section({ type }: ISectionProps) {
 		history.push(newUrl);
 	};
 
-	const noResultsText = sectionNoResultsText(
-		searchedTerm,
-		comic,
-		story,
-		format,
-		type
-	);
+	const noResultsText = sectionNoResultsText(query, comic, story, format, type);
 
 	return (
 		<div className={styles.section}>

@@ -21,7 +21,7 @@ export default function App() {
 				</RouteWithFooter>
 
 				<RouteWithFooter
-					path={`${paths.characters}${paths.search}:searchedTerm${paths.page}:page`}
+					path={`${paths.characters}${paths.search}:query${paths.page}:page`}
 				>
 					<Section type="characters" />
 				</RouteWithFooter>
@@ -43,7 +43,7 @@ export default function App() {
 				</RouteWithFooter>
 
 				<RouteWithFooter
-					path={`${paths.comics}${paths.search}:searchedTerm${paths.page}:page`}
+					path={`${paths.comics}${paths.search}:query${paths.page}:page`}
 				>
 					<Section type="comics" />
 				</RouteWithFooter>
@@ -59,7 +59,7 @@ export default function App() {
 				</RouteWithFooter>
 
 				<RouteWithFooter
-					path={`${paths.stories}${paths.search}:searchedTerm${paths.page}:page`}
+					path={`${paths.stories}${paths.search}:query${paths.page}:page`}
 				>
 					<Section type="stories" />
 				</RouteWithFooter>

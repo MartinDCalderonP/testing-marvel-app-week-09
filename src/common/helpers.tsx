@@ -41,7 +41,7 @@ export const searchNavigationUrl = (term: string, type: string): string => {
 export const sectionFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
-	searchedTerm: string,
+	query: string,
 	comic: string,
 	story: string,
 	format: string,
@@ -52,14 +52,14 @@ export const sectionFetchUrl = (
 
 	const charactersFetchUrls: IObjects = {
 		default: `${API.characters}?${paginationParams}`,
-		searchedTerm: `${API.characters}?${paginationParams}&${API.charactersSearch}${searchedTerm}`,
+		query: `${API.characters}?${paginationParams}&${API.charactersSearch}${query}`,
 		comic: `${API.comics}/${comic}${paths.characters}?${paginationParams}`,
 		story: `${API.stories}/${story}${paths.characters}?${paginationParams}`,
 	};
 
 	const comicsFetchUrls: IObjects = {
 		default: `${API.comics}?${paginationParams}`,
-		searchedTerm: `${API.comics}?${paginationParams}&${API.comicsSearch}${searchedTerm}`,
+		query: `${API.comics}?${paginationParams}&${API.comicsSearch}${query}`,
 		format: `${API.comics}?${API.format}${format}&${paginationParams}`,
 	};
 
@@ -68,8 +68,8 @@ export const sectionFetchUrl = (
 	};
 
 	if (type === 'characters') {
-		return searchedTerm
-			? charactersFetchUrls.searchedTerm
+		return query
+			? charactersFetchUrls.query
 			: comic
 			? charactersFetchUrls.comic
 			: story
@@ -78,8 +78,8 @@ export const sectionFetchUrl = (
 	}
 
 	if (type === 'comics') {
-		return searchedTerm
-			? comicsFetchUrls.searchedTerm
+		return query
+			? comicsFetchUrls.query
 			: format
 			? comicsFetchUrls.format
 			: comicsFetchUrls.default;
@@ -94,36 +94,36 @@ export const sectionFetchUrl = (
 
 export const sectionPaginationUrl = (
 	pageNumber: number,
-	searchedTerm: string,
+	query: string,
 	comic: string,
 	story: string,
 	format: string,
 	type: string
 ): string => {
 	const paginationParams = `${paths.page}${pageNumber}`;
-	const searchParams = `${paths.search}${searchedTerm}`;
+	const searchParams = `${paths.search}${query}`;
 
 	const charactersPaginationUrls: IObjects = {
 		default: `${paths.characters}${paginationParams}`,
-		searchedTerm: `${paths.characters}${searchParams}${paginationParams}`,
+		query: `${paths.characters}${searchParams}${paginationParams}`,
 		comic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
 		story: `${paths.characters}${paths.story}${story}${paginationParams}`,
 	};
 
 	const comicsPaginationUrls: IObjects = {
 		comics: `${paths.comics}${paginationParams}`,
-		searchedTerm: `${paths.comics}${searchParams}${paginationParams}`,
+		query: `${paths.comics}${searchParams}${paginationParams}`,
 		format: `${paths.comics}${paths.format}${format}${paginationParams}`,
 	};
 
 	const storiesPaginationUrls: IObjects = {
 		stories: `${paths.stories}${paginationParams}`,
-		searchedTerm: `${paths.stories}${searchParams}${paginationParams}`,
+		query: `${paths.stories}${searchParams}${paginationParams}`,
 	};
 
 	if (type === 'characters') {
-		return searchedTerm
-			? charactersPaginationUrls.searchedTerm
+		return query
+			? charactersPaginationUrls.query
 			: comic
 			? charactersPaginationUrls.comic
 			: story
@@ -132,24 +132,22 @@ export const sectionPaginationUrl = (
 	}
 
 	if (type === 'comics') {
-		return searchedTerm
-			? comicsPaginationUrls.searchedTerm
+		return query
+			? comicsPaginationUrls.query
 			: format
 			? comicsPaginationUrls.format
 			: comicsPaginationUrls.default;
 	}
 
 	if (type === 'stories') {
-		return searchedTerm
-			? storiesPaginationUrls.searchedTerm
-			: storiesPaginationUrls.default;
+		return query ? storiesPaginationUrls.query : storiesPaginationUrls.default;
 	}
 
 	return '';
 };
 
 export const sectionNoResultsText = (
-	searchedTerm: string,
+	query: string,
 	comic: string,
 	story: string,
 	format: string,
@@ -166,8 +164,8 @@ export const sectionNoResultsText = (
 		format: ' this format',
 	};
 
-	if (searchedTerm) {
-		return ` "${searchedTerm.replaceAll('+', ' ')}"`;
+	if (query) {
+		return ` "${query.replaceAll('+', ' ')}"`;
 	}
 
 	if (type === 'characters') {

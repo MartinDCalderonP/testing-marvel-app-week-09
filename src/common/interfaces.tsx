@@ -93,7 +93,7 @@ export interface URL {
 
 export interface ISectionParams {
 	page: string;
-	searchedTerm: string;
+	query: string;
 	comic: string;
 	story: string;
 	format: string;
