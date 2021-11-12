@@ -6,7 +6,7 @@ import {
 	sectionNoResultsText,
 	sectionPaginationUrl,
 } from '../common/helpers';
-import { ISectionProps, IUseParams } from '../common/interfaces';
+import { ISectionProps, ISectionParams } from '../common/interfaces';
 import { isCorrectData, hasTotal } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
 import SearchInput from '../components/SearchInput';
@@ -16,7 +16,7 @@ import CardsContainer from '../components/CardsContainer';
 import PaginationButtons from '../components/PaginationButtons';
 
 export default function Section({ type }: ISectionProps) {
-	const { page, searchedTerm, comic, story, format } = useParams<IUseParams>();
+	const { page, searchedTerm, comic, story, format } = useParams<ISectionParams>();
 	const [currentPage, setCurrentPage] = useState<number>(parseInt(page));
 	const postsPerPage = 8;
 	const fetchUrl = sectionFetchUrl(

@@ -91,7 +91,7 @@ export interface URL {
 	url: string;
 }
 
-export interface IUseParams {
+export interface ISectionParams {
 	page: string;
 	searchedTerm: string;
 	comic: string;
