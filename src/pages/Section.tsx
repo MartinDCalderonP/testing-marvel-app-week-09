@@ -31,9 +31,11 @@ export default function Section({ type }: ISectionProps) {
 	const { data, loading } = useFetch(fetchUrl);
 	const history = useHistory();
 
-	const searchedPosts = isCorrectData(data)?.filter((story: any) =>
-		story.title.toLowerCase().includes(searchedTerm?.toLowerCase())
-	);
+	const searchedPosts =
+		type === 'stories' &&
+		isCorrectData(data)?.filter((story: any) =>
+			story.title.toLowerCase().includes(searchedTerm?.toLowerCase())
+		);
 
 	const currentPosts =
 		type === 'stories' && searchedTerm ? searchedPosts : isCorrectData(data);
@@ -56,7 +58,13 @@ export default function Section({ type }: ISectionProps) {
 		history.push(newUrl);
 	};
 
-	const noResultsText = sectionNoResultsText(searchedTerm, type);
+	const noResultsText = sectionNoResultsText(
+		searchedTerm,
+		comic,
+		story,
+		format,
+		type
+	);
 
 	return (
 		<div className={styles.section}>

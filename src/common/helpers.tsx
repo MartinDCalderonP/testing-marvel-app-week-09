@@ -71,40 +71,90 @@ export const sectionPaginationUrl = (
 	const paginationParams = `${paths.page}${pageNumber}`;
 	const searchParams = `${paths.search}${searchedTerm}`;
 
-	const newUrls: IObjects = {
-		characters: `${paths.characters}${paginationParams}`,
-		charactersBySearch: `${paths.characters}${searchParams}${paginationParams}`,
-		charactersByComic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
-		charactersByStory: `${paths.characters}${paths.story}${story}${paginationParams}`,
-		comics: `${paths.comics}${paginationParams}`,
-		comicsBySearch: `${paths.comics}${searchParams}${paginationParams}`,
-		comicsByFormat: `${paths.comics}${paths.format}${format}${paginationParams}`,
-		stories: `${paths.stories}${paginationParams}`,
-		storiesBySearch: `${paths.stories}${searchParams}${paginationParams}`,
+	const charactersPaginationUrls: IObjects = {
+		default: `${paths.characters}${paginationParams}`,
+		searchedTerm: `${paths.characters}${searchParams}${paginationParams}`,
+		comic: `${paths.characters}${paths.comic}${comic}${paginationParams}`,
+		story: `${paths.characters}${paths.story}${story}${paginationParams}`,
 	};
 
-	return newUrls[type];
+	const comicsPaginationUrls: IObjects = {
+		comics: `${paths.comics}${paginationParams}`,
+		searchedTerm: `${paths.comics}${searchParams}${paginationParams}`,
+		format: `${paths.comics}${paths.format}${format}${paginationParams}`,
+	};
+
+	const storiesPaginationUrls: IObjects = {
+		stories: `${paths.stories}${paginationParams}`,
+		searchedTerm: `${paths.stories}${searchParams}${paginationParams}`,
+	};
+
+	if (type === 'characters') {
+		return searchedTerm
+			? charactersPaginationUrls.searchedTerm
+			: comic
+			? charactersPaginationUrls.comic
+			: story
+			? charactersPaginationUrls.story
+			: charactersPaginationUrls.default;
+	}
+
+	if (type === 'comics') {
+		return searchedTerm
+			? comicsPaginationUrls.searchedTerm
+			: format
+			? comicsPaginationUrls.format
+			: comicsPaginationUrls.default;
+	}
+
+	if (type === 'stories') {
+		return searchedTerm
+			? storiesPaginationUrls.searchedTerm
+			: storiesPaginationUrls.default;
+	}
+
+	return '';
 };
 
 export const sectionNoResultsText = (
 	searchedTerm: string,
+	comic: string,
+	story: string,
+	format: string,
 	type: string
 ): string => {
-	const noResultForSearchedTerm = ` "${searchedTerm.replaceAll('+', ' ')}"`;
-
-	const noResultsTexts: IObjects = {
+	const charactersNoResultsTexts: IObjects = {
 		characters: ' characters section',
-		charactersBySearch: noResultForSearchedTerm,
-		charactersByComic: ' this comic',
-		charactersByStory: 'this story',
-		comics: ' comics section',
-		comicsBySearch: noResultForSearchedTerm,
-		comicsByFormat: ' this format',
-		stories: ' stories section',
-		storiesBySearch: noResultForSearchedTerm,
+		comic: ' this comic',
+		story: 'this story',
 	};
 
-	return noResultsTexts[type];
+	const comicsNoResultsTexts: IObjects = {
+		comics: ' comics section',
+		format: ' this format',
+	};
+
+	if (searchedTerm) {
+		return ` "${searchedTerm.replaceAll('+', ' ')}"`;
+	}
+
+	if (type === 'characters') {
+		return comic
+			? charactersNoResultsTexts.comic
+			: story
+			? charactersNoResultsTexts.story
+			: charactersNoResultsTexts.default;
+	}
+
+	if (type === 'comics') {
+		return format ? comicsNoResultsTexts.format : comicsNoResultsTexts.default;
+	}
+
+	if (type === 'stories') {
+		return ' stories section';
+	}
+
+	return '';
 };
 
 export const selectFetchUrl = (type: string) => {
