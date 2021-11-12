@@ -98,55 +98,34 @@ export const comicsCurrentNewUrl = (
 	return currentNewUrl;
 };
 
-export const storiesCurrentFetchUrl = (
-	currentPage: number,
-	postsPerPage: number
-): string => {
-	const offset = postsPerPage * (currentPage - 1);
-
-	return `${API.stories}?${API.limit}${postsPerPage}&${API.offset}${offset}`;
-};
-
-export const storiesCurrentNewUrl = (
-	searchedTerm: string,
-	pageNumber: number
-) => {
-	const newUrls: IUrlsObject = {
-		default: `${paths.stories}${paths.page}${pageNumber}`,
-		searchedTerm: `${paths.stories}${paths.search}${searchedTerm}${paths.page}${pageNumber}`,
+export const selectFetchUrl = (type: string) => {
+	const fetchUrls: IObjects = {
+		comics: `${API.comics}?${API.limit}10`,
+		stories: `${API.stories}?${API.limit}10`,
+		formats: `${API.comics}?${API.limit}10`,
 	};
 
-	const currentNewUrl = searchedTerm ? newUrls.searchedTerm : newUrls.default;
-
-	return currentNewUrl;
+	return fetchUrls[type];
 };
 
-export const selectFetchUrl = (comics: boolean | undefined) => {
-	if (comics) {
-		return `${API.comics}?${API.limit}10`;
-	} else {
-		return `${API.stories}?${API.limit}10`;
-	}
-};
+export const selectNewUrl = (term: string, type: string) => {
+	const params = `${term}${paths.page}1`;
 
-export const selectCurrentNewUrl = (
-	term: string,
-	formats: boolean | undefined,
-	comics: boolean | undefined
-) => {
-	const newUrlCommonParams = `${term}${paths.page}1`;
-
-	const newUrls: IUrlsObject = {
-		comics: `${paths.characters}${paths.comic}${newUrlCommonParams}`,
-		stories: `${paths.characters}${paths.story}${newUrlCommonParams}`,
-		formats: `${paths.comics}${paths.format}${newUrlCommonParams}`,
+	const newUrls: IObjects = {
+		comics: `${paths.characters}${paths.comic}${params}`,
+		stories: `${paths.characters}${paths.story}${params}`,
+		formats: `${paths.comics}${paths.format}${params}`,
 	};
 
-	const currentNewUrl = formats
-		? newUrls.formats
-		: comics
-		? newUrls.comics
-		: newUrls.stories;
+	return newUrls[type];
+};
 
-	return currentNewUrl;
+export const selectPlaceholder = (type: string) => {
+	const placeholders: IObjects = {
+		comics: ' comic',
+		stories: ' story',
+		formats: ' format',
+	};
+
+	return placeholders[type];
 };

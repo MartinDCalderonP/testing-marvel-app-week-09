@@ -1,7 +1,11 @@
 import React, { useState, ChangeEvent } from 'react';
 import styles from '../styles/Select.module.scss';
 import { useHistory } from 'react-router';
-import { selectCurrentNewUrl, selectFetchUrl } from '../common/helpers';
+import {
+	selectNewUrl,
+	selectFetchUrl,
+	selectPlaceholder,
+} from '../common/helpers';
 import { ISelect, IComic, IStory } from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
@@ -17,13 +21,8 @@ const comicFormats = [
 	'infinite comic',
 ];
 
-export default function Select({
-	currentValue,
-	comics,
-	stories,
-	formats,
-}: ISelect) {
-	const fetchUrl = selectFetchUrl(comics);
+export default function Select({ currentValue, type }: ISelect) {
+	const fetchUrl = selectFetchUrl(type);
 	const { data, loading } = useFetch(fetchUrl);
 	const [selectedValue, setSelectedValue] = useState(currentValue || '');
 	const history = useHistory();
@@ -31,15 +30,17 @@ export default function Select({
 	const handleSelectValueChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedValue(e.target.value);
 
-		const newUrl = selectCurrentNewUrl(e.target.value, formats, comics);
+		const newUrl = selectNewUrl(e.target.value, type);
 
 		history.push(newUrl);
 	};
 
+	const placeholder = selectPlaceholder(type);
+
 	const showSelectOptions = () => {
-		if (!formats && isCorrectData(data).length > 0) {
+		if (type !== 'formats' && isCorrectData(data).length > 0) {
 			return isCorrectData(data).map((item: IComic | IStory) => (
-				<option key={item.id} value={item.id}>
+				<option key={`${type}${item.id}`} value={item.id}>
 					{item.title}
 				</option>
 			));
@@ -60,11 +61,9 @@ export default function Select({
 					value={selectedValue}
 					onChange={handleSelectValueChange}
 				>
-					<option hidden>
-						Select a {formats ? 'Format' : comics ? 'Comic' : 'Story'}
-					</option>
+					<option hidden>Select a {placeholder}</option>
 
-					{showSelectOptions()}
+					{showSelectOptions}
 				</select>
 			)}
 		</>
