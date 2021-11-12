@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../styles/Card.module.scss';
 import { Link } from 'react-router-dom';
 import { cardNavigationUrl } from '../common/helpers';
-import { ICardProps, IObjects } from '../common/interfaces';
+import { ICardProps } from '../common/interfaces';
 import notFoundImage from '../img/notFound.jpg';
 import CardButtons from './CardButtons';
 
