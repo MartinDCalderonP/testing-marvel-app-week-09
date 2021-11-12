@@ -37,22 +37,6 @@ export default function Select({ currentValue, type }: ISelect) {
 
 	const placeholder = selectPlaceholder(type);
 
-	const showSelectOptions = () => {
-		if (type !== 'formats' && isCorrectData(data).length > 0) {
-			return isCorrectData(data).map((item: IComic | IStory) => (
-				<option key={`${type}${item.id}`} value={item.id}>
-					{item.title}
-				</option>
-			));
-		} else {
-			return comicFormats.map((item: string, index) => (
-				<option key={`formats${index}`} value={item}>
-					{item}
-				</option>
-			));
-		}
-	};
-
 	return (
 		<>
 			{!loading && (
@@ -63,7 +47,19 @@ export default function Select({ currentValue, type }: ISelect) {
 				>
 					<option hidden>Select a {placeholder}</option>
 
-					{showSelectOptions}
+					{type !== 'formats' &&
+						isCorrectData(data)?.map((item: IComic | IStory) => (
+							<option key={`${type}${item.id}`} value={item.id}>
+								{item.title}
+							</option>
+						))}
+
+					{type === 'formats' &&
+						comicFormats?.map((item: string, index) => (
+							<option key={`formats${index}`} value={item}>
+								{item}
+							</option>
+						))}
 				</select>
 			)}
 		</>
