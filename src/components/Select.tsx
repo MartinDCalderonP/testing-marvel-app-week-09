@@ -30,9 +30,9 @@ export default function Select({ currentValue, type }: ISelect) {
 	const handleSelectValueChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedValue(e.target.value);
 
-		const newUrl = selectNavigationUrl(e.target.value, type);
+		const navigationUrl = selectNavigationUrl(e.target.value, type);
 
-		history.push(newUrl);
+		history.push(navigationUrl);
 	};
 
 	const placeholder = selectPlaceholder(type);
