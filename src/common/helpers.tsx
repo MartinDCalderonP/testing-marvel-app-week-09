@@ -167,16 +167,16 @@ export const selectFetchUrl = (type: string) => {
 	return fetchUrls[type];
 };
 
-export const selectNewUrl = (term: string, type: string) => {
+export const selectNavigationUrl = (term: string, type: string) => {
 	const params = `${term}${paths.page}1`;
 
-	const newUrls: IObjects = {
+	const navigationUrls: IObjects = {
 		comics: `${paths.characters}${paths.comic}${params}`,
 		stories: `${paths.characters}${paths.story}${params}`,
 		formats: `${paths.comics}${paths.format}${params}`,
 	};
 
-	return newUrls[type];
+	return navigationUrls[type];
 };
 
 export const selectPlaceholder = (type: string) => {
