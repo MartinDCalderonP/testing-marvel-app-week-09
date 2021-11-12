@@ -2,8 +2,8 @@ import React, { useState, ChangeEvent, MouseEvent, useCallback } from 'react';
 import styles from '../styles/SearchInput.module.scss';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { paths } from '../common/enums';
-import { IObjects, ISearchInputProps } from '../common/interfaces';
+import { searchNavigationUrl } from '../common/helpers';
+import { ISearchInputProps } from '../common/interfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,17 +13,9 @@ export default function SearchInput({ type }: ISearchInputProps) {
 
 	const searchTerm = (term: string) => {
 		if (term !== '') {
-			const termToPath = term.replaceAll(' ', '+');
+			const navigationUrl = searchNavigationUrl(term, type);
 
-			const sections: IObjects = {
-				characters: paths.characters,
-				comics: paths.comics,
-				stories: paths.stories,
-			};
-
-			history.push(
-				`${sections[type]}${paths.search}${termToPath}${paths.page}1`
-			);
+			history.push(navigationUrl);
 		}
 	};
 

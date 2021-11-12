@@ -26,6 +26,18 @@ export const detailFetchUrl = (id: string, type: string): string => {
 	return fetchUrls[type];
 };
 
+export const searchNavigationUrl = (term: string, type: string): string => {
+	const termToPath = term.replaceAll(' ', '+');
+
+	const sections: IObjects = {
+		characters: paths.characters,
+		comics: paths.comics,
+		stories: paths.stories,
+	};
+
+	return `${sections[type]}${paths.search}${termToPath}${paths.page}1`;
+};
+
 export const sectionFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
