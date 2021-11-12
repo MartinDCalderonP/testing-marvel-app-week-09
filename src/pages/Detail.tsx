@@ -2,9 +2,8 @@ import React from 'react';
 import styles from '../styles/Detail.module.scss';
 import { useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
-import { API } from '../common/enums';
-import { capitalizeWord } from '../common/helpers';
-import { IDetailProps, IDetailParams, IObjects } from '../common/interfaces';
+import { capitalizeWord, detailFetchUrl } from '../common/helpers';
+import { IDetailProps, IDetailParams } from '../common/interfaces';
 import { isCorrectData } from '../common/typeGuards';
 import Spinner from '../components/Spinner';
 import notFoundImage from '../img/notFound.jpg';
@@ -13,14 +12,8 @@ const detailTypes = ['characters', 'comics', 'stories'];
 
 export default function Detail({ type }: IDetailProps) {
 	const { id } = useParams<IDetailParams>();
-
-	const fetchUrl: IObjects = {
-		characters: `${API.characters}/${id}?`,
-		comics: `${API.comics}/${id}?`,
-		stories: `${API.stories}/${id}?`,
-	};
-
-	const { data, loading } = useFetch(fetchUrl[type]);
+	const fetchUrl = detailFetchUrl(id, type);
+	const { data, loading } = useFetch(fetchUrl);
 
 	const currentImage = () => {
 		if (isCorrectData(data) && isCorrectData(data)[0]?.thumbnail) {

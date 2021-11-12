@@ -16,6 +16,16 @@ export const cardNavigationUrl = (id: number, type: string): string => {
 	return navigationUrls[type];
 };
 
+export const detailFetchUrl = (id: string, type: string): string => {
+	const fetchUrls: IObjects = {
+		characters: `${API.characters}/${id}?`,
+		comics: `${API.comics}/${id}?`,
+		stories: `${API.stories}/${id}?`,
+	};
+
+	return fetchUrls[type];
+};
+
 export const sectionFetchUrl = (
 	currentPage: number,
 	postsPerPage: number,
