@@ -6,8 +6,14 @@ import {
 	sectionNoResultsText,
 	sectionPaginationUrl,
 } from '../common/helpers';
-import { ISectionProps, ISectionParams } from '../common/interfaces';
-import { isCorrectData, hasTotal } from '../common/typeGuards';
+import {
+	ISectionProps,
+	ISectionParams,
+	ICharacter,
+	IComic,
+	IStory,
+} from '../common/interfaces';
+import { isStory } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
 import SearchInput from '../components/SearchInput';
 import Select from '../components/Select';
@@ -28,20 +34,21 @@ export default function Section({ type }: ISectionProps) {
 		format,
 		type
 	);
-	const { data, loading } = useFetch(fetchUrl);
+	const { data, loading } = useFetch<ICharacter[] | IComic[] | IStory[]>(
+		fetchUrl
+	);
 	const history = useHistory();
 
 	const searchedPosts =
 		type === 'stories' &&
-		isCorrectData(data)?.filter((story: any) =>
+		isStory(data)?.filter((story: IStory) =>
 			story.title.toLowerCase().includes(query?.toLowerCase())
 		);
 
-	const currentPosts =
-		type === 'stories' && query ? searchedPosts : isCorrectData(data);
+	const currentPosts = type === 'stories' && query ? searchedPosts : data;
 
 	const currentTotal =
-		type === 'stories' && query ? currentPosts?.length : hasTotal(data);
+		type === 'stories' && query ? currentPosts?.length : data;
 
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);

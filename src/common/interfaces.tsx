@@ -231,3 +231,18 @@ export interface IObjects {
 export interface ISectionProps {
 	type: string;
 }
+
+export interface IBookmark {
+	id: number;
+	name: string;
+	thumbnail: {
+		path: string;
+		extension: string;
+	};
+	type: string;
+}
+
+export interface OriginalIssue {
+	resourceURI: string;
+	name: string;
+}

@@ -7,7 +7,6 @@ import {
 	selectPlaceholder,
 } from '../common/helpers';
 import { ISelect, IComic, IStory } from '../common/interfaces';
-import { isCorrectData } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
 
 const comicFormats = [
@@ -23,7 +22,7 @@ const comicFormats = [
 
 export default function Select({ currentValue, type }: ISelect) {
 	const fetchUrl = selectFetchUrl(type);
-	const { data, loading } = useFetch(fetchUrl);
+	const { data, loading } = useFetch<IComic[] | IStory[]>(fetchUrl);
 	const [selectedValue, setSelectedValue] = useState(currentValue || '');
 	const history = useHistory();
 
@@ -48,7 +47,7 @@ export default function Select({ currentValue, type }: ISelect) {
 					<option hidden>Select a {placeholder}</option>
 
 					{type !== 'formats' &&
-						isCorrectData(data)?.map((item: IComic | IStory) => (
+						data?.map((item: IComic | IStory) => (
 							<option key={`${type}${item.id}`} value={item.id}>
 								{item.title}
 							</option>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/CardsContainer.module.scss';
 // eslint-disable-next-line
-import { ICardsContainerProps, ICharacter, IComic } from '../common/interfaces';
+import { ICardsContainerProps } from '../common/interfaces';
 import Spinner from './Spinner';
 import Card from './Card';
 

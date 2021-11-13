@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IUseFetch } from '../common/interfaces';
+import { isCorrectData } from '../common/typeGuards';
 import { API_KEY, API_HASH } from '../Keys';
 
 export default function useFetch<T>(fetchUrl: string): IUseFetch<T> {
@@ -17,8 +18,10 @@ export default function useFetch<T>(fetchUrl: string): IUseFetch<T> {
 			fetch(url, { signal })
 				.then((res) => res.json())
 				.then((result) => {
-					setData(result);
-					setLoading(false);
+					if (isCorrectData(result)) {
+						setData(result.data.results);
+						setLoading(false);
+					}
 				})
 				.catch((err) => {
 					if (err.name === 'AbortError') return;

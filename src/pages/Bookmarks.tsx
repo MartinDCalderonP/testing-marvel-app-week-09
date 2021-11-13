@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styles from '../styles/Bookmarks.module.scss';
 import { actionTypes, useContextState } from '../context/Context';
 import { capitalizeWord } from '../common/helpers';
+import { IBookmark } from '../common/interfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CardsContainer from '../components/CardsContainer';
@@ -12,10 +13,12 @@ export default function Bookmarks() {
 	const { state, dispatch } = useContextState();
 
 	const filterBookmarks = (type: string) => {
-		return state.bookmarks.filter((bookmark: any) => bookmark.type === type);
+		return state.bookmarks.filter(
+			(bookmark: IBookmark) => bookmark.type === type
+		);
 	};
 
-	const handleClearBookmarks = (e: any) => {
+	const handleClearBookmarks = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		window.localStorage.removeItem('bookmarks');
 		dispatch({ type: actionTypes.CLEAR_BOOKMARKS });

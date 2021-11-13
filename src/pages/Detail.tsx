@@ -3,34 +3,41 @@ import styles from '../styles/Detail.module.scss';
 import { useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import { capitalizeWord, detailFetchUrl } from '../common/helpers';
-import { IDetailProps, IDetailParams } from '../common/interfaces';
-import { isCorrectData } from '../common/typeGuards';
+import {
+	IDetailProps,
+	IDetailParams,
+	ICharacter,
+	IComic,
+	IStory,
+	Item,
+} from '../common/interfaces';
 import Spinner from '../components/Spinner';
 import notFoundImage from '../img/notFound.jpg';
+import { isCharacter, isComic, isCorrect } from '../common/typeGuards';
 
 const detailTypes = ['characters', 'comics', 'stories'];
 
 export default function Detail({ type }: IDetailProps) {
 	const { id } = useParams<IDetailParams>();
 	const fetchUrl = detailFetchUrl(id, type);
-	const { data, loading } = useFetch(fetchUrl);
+	const { data, loading } = useFetch<ICharacter[] | IComic[] | IStory[]>(
+		fetchUrl
+	);
 
-	const currentImage = () => {
-		if (isCorrectData(data) && isCorrectData(data)[0]?.thumbnail) {
-			return (
-				isCorrectData(data)[0].thumbnail.path +
-				'.' +
-				isCorrectData(data)[0].thumbnail.extension
-			);
+	const currentImage = (): string => {
+		if (data && data[0]?.thumbnail) {
+			return data[0].thumbnail.path + '.' + data[0].thumbnail.extension;
 		}
 		return notFoundImage;
 	};
 
-	const currentTitle = () => {
-		if (isCorrectData(data) && isCorrectData(data)[0]) {
-			return isCorrectData(data)[0]?.name || isCorrectData(data)[0]?.title;
-		}
+	const currentTitle = (): string => {
+		return isCharacter(data)
+			? isCharacter(data)[0]?.name
+			: isComic(data)[0]?.title;
 	};
+
+	console.log(data);
 
 	const notCurrentType = detailTypes.filter(
 		(detailType) => detailType !== type
@@ -49,9 +56,9 @@ export default function Detail({ type }: IDetailProps) {
 								<img src={currentImage()} alt={currentTitle()} />
 							</div>
 
-							{isCorrectData(data)[0].description && (
+							{data[0].description && (
 								<div className={styles.description}>
-									<p>{isCorrectData(data)[0].description}</p>
+									<p>{data[0].description}</p>
 								</div>
 							)}
 						</div>
@@ -69,6 +76,7 @@ export default function Detail({ type }: IDetailProps) {
 							</div>
 						</div>
 					</div>
+
 					{notCurrentType.map((detailType) => (
 						<div key={`${type}${detailType}`} className={styles.section}>
 							<h2>
@@ -76,8 +84,8 @@ export default function Detail({ type }: IDetailProps) {
 							</h2>
 
 							<ul>
-								{isCorrectData(data)[0]?.[detailType].items.map(
-									(item: any, index: number) => (
+								{isCorrect(data)[0]?.[detailType].items.map(
+									(item: Item, index: number) => (
 										<li key={`${detailType}ListItem${index}`}>{item.name}</li>
 									)
 								)}

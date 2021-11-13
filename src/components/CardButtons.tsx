@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styles from '../styles/CardButtons.module.scss';
 import { actionTypes, useContextState } from '../context/Context';
-import { ICardButtonsProps } from '../common/interfaces';
+import { IBookmark, ICardButtonsProps } from '../common/interfaces';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as outlinedHeart } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -18,12 +18,12 @@ export default function CardButtons({
 	const { state, dispatch } = useContextState();
 
 	const postInBookmarks = state.bookmarks.find(
-		(bookmark: any) => bookmark.id === id && bookmark.type === type
+		(bookmark: IBookmark) => bookmark.id === id && bookmark.type === type
 	);
 
 	const currentIcon = !postInBookmarks ? outlinedHeart : solidHeart;
 
-	const handleAddBookmark = (e: any) => {
+	const handleAddBookmark = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
 		const newBookmark = {
@@ -46,11 +46,11 @@ export default function CardButtons({
 		});
 	};
 
-	const handleRemoveBookmark = (e: any) => {
+	const handleRemoveBookmark = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
 		const newBookmarks = state.bookmarks.filter(
-			(bookmark: any) => bookmark.id !== id && bookmark.type === type
+			(bookmark: IBookmark) => bookmark.id !== id && bookmark.type === type
 		);
 
 		window.localStorage.setItem(
@@ -70,7 +70,7 @@ export default function CardButtons({
 		? handleAddBookmark
 		: handleRemoveBookmark;
 
-	const handleHidePost = (e: any) => {
+	const handleHidePost = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
 		const newHiddenPosts = id;
