@@ -16,18 +16,26 @@
 		justify-content: center;
 	}
 
-	.clearButton {
+	.clearButtons {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		border: 1px solid var(--detailsColor);
-		border-radius: 5px;
-		padding: 10px;
-		background-color: var(--backgroundColor);
-		cursor: pointer;
+		justify-content: space-between;
+		height: 90px;
 
-		.clearIcon {
-			margin-left: 10px;
+		.clearButton {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid var(--detailsColor);
+			border-radius: 5px;
+			padding: 10px;
+			background-color: var(--backgroundColor);
+			cursor: pointer;
+
+			.clearIcon {
+				margin-left: 10px;
+			}
 		}
 	}
 }
