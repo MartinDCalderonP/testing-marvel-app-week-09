@@ -94,10 +94,6 @@ export default function Section({ type }: ISectionProps) {
 
 			{!loading && currentPosts?.length > 0 && (
 				<>
-					{query && (
-						<h1 className={styles.resultsText}>Results for "{query}".</h1>
-					)}
-
 					<CardsContainer loading={loading} posts={currentPosts} type={type} />
 
 					<PaginationButtons
@@ -110,7 +106,7 @@ export default function Section({ type }: ISectionProps) {
 			)}
 
 			{!loading && currentPosts.length === 0 && (
-				<h1 className={styles.resultsText}>
+				<h1 className={styles.noResultsText}>
 					No results found for {noResultsText}.
 				</h1>
 			)}
