@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import { paths } from './common/enums';
-import RouteWithoutFooter from './components/RouteWithoutFooter';
-import RouteWithFooter from './components/RouteWithFooter';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import Section from './pages/Section';
 import Detail from './pages/Detail';
@@ -12,73 +11,71 @@ export default function App() {
 	return (
 		<Router>
 			<Switch>
-				<RouteWithoutFooter exact path={paths.home}>
+				<Layout exact path={paths.home} footer={false}>
 					<Home />
-				</RouteWithoutFooter>
+				</Layout>
 
-				<RouteWithFooter path={`${paths.characters}${paths.page}:page`}>
+				<Layout path={`${paths.characters}${paths.page}:page`}>
 					<Section type="characters" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter
+				<Layout
 					path={`${paths.characters}${paths.search}:query${paths.page}:page`}
 				>
 					<Section type="characters" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter
+				<Layout
 					path={`${paths.characters}${paths.comic}:comic${paths.page}:page`}
 				>
 					<Section type="characters" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter
+				<Layout
 					path={`${paths.characters}${paths.story}:story${paths.page}:page`}
 				>
 					<Section type="characters" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter path={`${paths.comics}${paths.page}:page`}>
+				<Layout path={`${paths.comics}${paths.page}:page`}>
 					<Section type="comics" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter
-					path={`${paths.comics}${paths.search}:query${paths.page}:page`}
-				>
+				<Layout path={`${paths.comics}${paths.search}:query${paths.page}:page`}>
 					<Section type="comics" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter
+				<Layout
 					path={`${paths.comics}${paths.format}:format${paths.page}:page`}
 				>
 					<Section type="comics" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter path={`${paths.stories}${paths.page}:page`}>
+				<Layout path={`${paths.stories}${paths.page}:page`}>
 					<Section type="stories" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter
+				<Layout
 					path={`${paths.stories}${paths.search}:query${paths.page}:page`}
 				>
 					<Section type="stories" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter path={`${paths.characters}/:id`}>
+				<Layout path={`${paths.characters}/:id`}>
 					<Detail type="characters" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter path={`${paths.comics}/:id`}>
+				<Layout path={`${paths.comics}/:id`}>
 					<Detail type="comics" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter path={`${paths.stories}/:id`}>
+				<Layout path={`${paths.stories}/:id`}>
 					<Detail type="stories" />
-				</RouteWithFooter>
+				</Layout>
 
-				<RouteWithFooter path={paths.bookmarks}>
+				<Layout path={paths.bookmarks}>
 					<Bookmarks />
-				</RouteWithFooter>
+				</Layout>
 
 				<Redirect to={{ pathname: `${paths.home}` }} />
 			</Switch>

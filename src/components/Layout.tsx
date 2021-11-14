@@ -4,12 +4,12 @@ import { ICustomRoute } from '../common/interfaces';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-export default function RouteWithFooter({ children, ...rest }: ICustomRoute) {
+export default function Layout({ children, footer, ...rest }: ICustomRoute) {
 	return (
 		<Route {...rest}>
 			<Navbar />
 			{children}
-			<Footer />
+			{footer !== false && <Footer />}
 		</Route>
 	);
 }

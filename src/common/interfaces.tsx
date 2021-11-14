@@ -4,6 +4,7 @@ export interface ICustomRoute {
 	exact?: boolean;
 	path: string;
 	children: ReactNode;
+	footer?: boolean;
 }
 
 export interface IUseFetch<T> {
