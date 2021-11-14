@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from '../styles/CardsContainer.module.scss';
-// eslint-disable-next-line
-import { ICardsContainerProps } from '../common/interfaces';
+import {
+	ICardsContainerProps,
+	ICharacter,
+	IComic,
+	IStory,
+} from '../common/interfaces';
+import { isCharacter, isComic, isStory } from '../common/typeGuards';
 import Spinner from './Spinner';
 import Card from './Card';
 
@@ -16,12 +21,16 @@ export default function CardsContainer({
 
 			{!loading &&
 				posts?.length > 0 &&
-				posts?.map((post: any) => (
+				posts?.map((post: ICharacter | IComic | IStory) => (
 					<Card
 						key={`${type}${post.id}`}
 						id={post.id}
-						name={post.name || post.title}
-						thumbnail={post.thumbnail}
+						name={
+							isCharacter(post)?.name ||
+							isComic(post)?.title ||
+							isStory(post)?.title
+						}
+						thumbnail={isCharacter(post)?.thumbnail || isComic(post)?.thumbnail}
 						type={type}
 					/>
 				))}

@@ -11,9 +11,9 @@ import {
 	IStory,
 	Item,
 } from '../common/interfaces';
+import { isCharacter, isComic, isCorrect, isStory } from '../common/typeGuards';
 import Spinner from '../components/Spinner';
 import notFoundImage from '../img/notFound.jpg';
-import { isCharacter, isComic, isCorrect } from '../common/typeGuards';
 
 const detailTypes = ['characters', 'comics', 'stories'];
 
@@ -31,13 +31,10 @@ export default function Detail({ type }: IDetailProps) {
 		return notFoundImage;
 	};
 
-	const currentTitle = (): string => {
-		return isCharacter(data)
-			? isCharacter(data)[0]?.name
-			: isComic(data)[0]?.title;
-	};
-
-	console.log(data);
+	const currentTitle =
+		(data && isCharacter(data[0]).name) ||
+		(data && isComic(data[0]).title) ||
+		(data && isStory(data[0]).title);
 
 	const notCurrentType = detailTypes.filter(
 		(detailType) => detailType !== type
@@ -49,11 +46,11 @@ export default function Detail({ type }: IDetailProps) {
 
 			{!loading && data && (
 				<>
-					<h1>{currentTitle()}</h1>
+					<h1>{currentTitle}</h1>
 					<div className={styles.row}>
 						<div className={styles.leftColumn}>
 							<div className={styles.image}>
-								<img src={currentImage()} alt={currentTitle()} />
+								<img src={currentImage()} alt={currentTitle} />
 							</div>
 
 							{data[0].description && (
@@ -71,7 +68,7 @@ export default function Detail({ type }: IDetailProps) {
 
 								<p>
 									<b>Name: </b>
-									{currentTitle()}
+									{currentTitle}
 								</p>
 							</div>
 						</div>
@@ -84,7 +81,7 @@ export default function Detail({ type }: IDetailProps) {
 							</h2>
 
 							<ul>
-								{isCorrect(data)[0]?.[detailType].items.map(
+								{isCorrect(data[0])?.[detailType].items.map(
 									(item: Item, index: number) => (
 										<li key={`${detailType}ListItem${index}`}>{item.name}</li>
 									)

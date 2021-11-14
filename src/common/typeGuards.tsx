@@ -3,17 +3,17 @@ export const isCorrectData = (data: any) => {
 };
 
 export const isCharacter = (data: any) => {
-	return data[0]?.name && data;
+	return data?.name && data;
 };
 
 export const isComic = (data: any) => {
-	return data[0]?.title && data;
+	return data?.title && data;
 };
 
 export const isStory = (data: any) => {
-	return data[0]?.title && data;
+	return data?.title && data;
 };
 
 export const isCorrect = (data: any) => {
-	return data[0] && data;
+	return data?.id && data;
 };
