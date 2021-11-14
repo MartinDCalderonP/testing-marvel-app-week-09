@@ -13,7 +13,7 @@ import {
 } from '../common/interfaces';
 import { isCharacter, isComic, isCorrect, isStory } from '../common/typeGuards';
 import Spinner from '../components/Spinner';
-import notFoundImage from '../img/notFound.jpg';
+import notFoundImage from '../images/notFound.jpg';
 
 const detailTypes = ['characters', 'comics', 'stories'];
 

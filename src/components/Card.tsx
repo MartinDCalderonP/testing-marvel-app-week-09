@@ -3,7 +3,7 @@ import styles from '../styles/Card.module.scss';
 import { Link } from 'react-router-dom';
 import { cardNavigationUrl } from '../common/helpers';
 import { ICardProps } from '../common/interfaces';
-import notFoundImage from '../img/notFound.jpg';
+import notFoundImage from '../images/notFound.jpg';
 import CardButtons from './CardButtons';
 
 export default function Card({ id, name, thumbnail, type }: ICardProps) {
