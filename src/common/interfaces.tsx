@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export interface ICustomRoute {
 	exact?: boolean;
-	path: string;
+	path?: string;
 	children: ReactNode;
 	footer?: boolean;
 }
