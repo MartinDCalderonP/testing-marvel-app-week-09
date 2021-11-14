@@ -32,9 +32,9 @@ export default function Detail({ type }: IDetailProps) {
 	};
 
 	const currentTitle =
-		(data && isCharacter(data[0]).name) ||
-		(data && isComic(data[0]).title) ||
-		(data && isStory(data[0]).title);
+		(data && isCharacter(data[0]) && isCharacter(data[0]).name) ||
+		(data && isComic(data[0]) && isComic(data[0]).title) ||
+		(data && isStory(data[0]) && isStory(data[0]).title);
 
 	const notCurrentType = detailTypes.filter(
 		(detailType) => detailType !== type
