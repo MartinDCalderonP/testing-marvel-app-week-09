@@ -35,9 +35,7 @@ export default function CardButtons({
 
 		window.localStorage.setItem(
 			'bookmarks',
-			JSON.stringify({
-				bookmarks: [...state.bookmarks, newBookmark],
-			})
+			JSON.stringify([...state.bookmarks, newBookmark])
 		);
 
 		dispatch({
@@ -53,12 +51,7 @@ export default function CardButtons({
 			(bookmark: IBookmark) => bookmark.id !== id && bookmark.type === type
 		);
 
-		window.localStorage.setItem(
-			'bookmarks',
-			JSON.stringify({
-				bookmarks: newBookmarks,
-			})
-		);
+		window.localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
 
 		dispatch({
 			type: actionTypes.REMOVE_BOOKMARK,
@@ -77,9 +70,7 @@ export default function CardButtons({
 
 		window.localStorage.setItem(
 			'hiddenPosts',
-			JSON.stringify({
-				hiddenPosts: [...state.hiddenPosts, newHiddenPosts],
-			})
+			JSON.stringify([...state.hiddenPosts, newHiddenPosts])
 		);
 
 		dispatch({

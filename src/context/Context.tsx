@@ -54,10 +54,17 @@ function reducer(state: State, action: Action) {
 }
 
 export function StateProvider({ children }: { children: ReactNode }) {
-	const storagedState = window.localStorage.getItem('bookmarks');
+	const storagedBookmarks = window.localStorage.getItem('bookmarks');
+	const storagedHiddenPosts = window.localStorage.getItem('hiddenPosts');
+
+	const storagedState = {
+		bookmarks: storagedBookmarks ? JSON.parse(storagedBookmarks) : [],
+		hiddenPosts: storagedHiddenPosts ? JSON.parse(storagedHiddenPosts) : [],
+	};
+
 	const [state, dispatch] = useReducer(
 		reducer,
-		storagedState ? JSON.parse(storagedState) : initialState
+		storagedState ? storagedState : initialState
 	);
 
 	return (

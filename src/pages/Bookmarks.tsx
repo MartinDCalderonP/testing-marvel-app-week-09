@@ -13,7 +13,7 @@ export default function Bookmarks() {
 	const { state, dispatch } = useContextState();
 
 	const filterBookmarks = (type: string) => {
-		return state.bookmarks.filter(
+		return state?.bookmarks?.filter(
 			(bookmark: IBookmark) => bookmark.type === type
 		);
 	};
@@ -22,6 +22,12 @@ export default function Bookmarks() {
 		e.preventDefault();
 		window.localStorage.removeItem('bookmarks');
 		dispatch({ type: actionTypes.CLEAR_BOOKMARKS });
+	};
+
+	const handleClearHiddenPosts = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		window.localStorage.removeItem('hiddenPosts');
+		dispatch({ type: actionTypes.CLEAR_HIDDEN_POSTS });
 	};
 
 	return (
@@ -44,14 +50,26 @@ export default function Bookmarks() {
 					)
 			)}
 
-			{state.bookmarks.length > 0 && (
-				<button className={styles.clearButton} onClick={handleClearBookmarks}>
-					Remove All Bookmarks
-					<FontAwesomeIcon className={styles.clearIcon} icon={faTrash} />
-				</button>
-			)}
-
 			{state.bookmarks.length === 0 && <h2>You have no bookmarks yet.</h2>}
+
+			<div className={styles.clearButtons}>
+				{state.bookmarks.length > 0 && (
+					<button className={styles.clearButton} onClick={handleClearBookmarks}>
+						Remove All Bookmarks
+						<FontAwesomeIcon className={styles.clearIcon} icon={faTrash} />
+					</button>
+				)}
+
+				{state.hiddenPosts.length > 0 && (
+					<button
+						className={styles.clearButton}
+						onClick={handleClearHiddenPosts}
+					>
+						Remove All Hidden Posts
+						<FontAwesomeIcon className={styles.clearIcon} icon={faTrash} />
+					</button>
+				)}
+			</div>
 		</div>
 	);
 }
