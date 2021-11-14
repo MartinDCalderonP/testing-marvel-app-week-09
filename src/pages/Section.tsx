@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/Section.module.scss';
 import { useParams, useHistory } from 'react-router';
+import { useContextState } from '../context/Context';
 import {
 	sectionFetchUrl,
 	sectionNoResultsText,
@@ -9,11 +10,11 @@ import {
 import {
 	ISectionProps,
 	ISectionParams,
-	ICharacter,
-	IComic,
 	IStory,
+	PossibleArrayTypes,
+	PossibleTypes,
 } from '../common/interfaces';
-import { isStory } from '../common/typeGuards';
+import { isStory, isDataArray } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
 import SearchInput from '../components/SearchInput';
 import Select from '../components/Select';
@@ -34,10 +35,13 @@ export default function Section({ type }: ISectionProps) {
 		format,
 		type
 	);
-	const { data, loading } = useFetch<ICharacter[] | IComic[] | IStory[]>(
-		fetchUrl
-	);
+	const { data, loading, total } = useFetch<PossibleArrayTypes>(fetchUrl);
 	const history = useHistory();
+	const { state } = useContextState();
+
+	const filterHiddenPosts = isDataArray(data)?.filter(
+		(item: PossibleTypes) => !state.hiddenPosts.includes(item.id)
+	);
 
 	const searchedPosts =
 		type === 'stories' &&
@@ -45,10 +49,15 @@ export default function Section({ type }: ISectionProps) {
 			story.title.toLowerCase().includes(query?.toLowerCase())
 		);
 
-	const currentPosts = type === 'stories' && query ? searchedPosts : data;
+	const currentPosts =
+		state?.hiddenPosts?.length > 0
+			? filterHiddenPosts
+			: type === 'stories' && query
+			? searchedPosts
+			: data;
 
 	const currentTotal =
-		type === 'stories' && query ? currentPosts?.length : data;
+		type === 'stories' && query ? currentPosts?.length : total;
 
 	const handlePaginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
@@ -83,7 +92,7 @@ export default function Section({ type }: ISectionProps) {
 
 			{loading && <Spinner />}
 
-			{!loading && currentPosts.length > 0 && (
+			{!loading && currentPosts?.length > 0 && (
 				<>
 					<CardsContainer loading={loading} posts={currentPosts} type={type} />
 

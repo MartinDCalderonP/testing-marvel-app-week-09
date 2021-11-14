@@ -9,6 +9,7 @@ export interface ICustomRoute {
 export interface IUseFetch<T> {
 	data: T | undefined;
 	loading: boolean;
+	total: number | undefined;
 }
 
 export interface ICardsContainerProps {
@@ -246,3 +247,7 @@ export interface OriginalIssue {
 	resourceURI: string;
 	name: string;
 }
+
+export type PossibleTypes = ICharacter | IComic | IStory;
+
+export type PossibleArrayTypes = ICharacter[] | IComic[] | IStory[];
