@@ -6,6 +6,8 @@ import { API_KEY, API_HASH } from '../Keys';
 export default function useFetch<T>(fetchUrl: string): IUseFetch<T> {
 	const [data, setData] = useState<T>();
 	const [loading, setLoading] = useState(true);
+	const [total, setTotal] = useState<number>();
+
 	const url = `${fetchUrl}&ts=1&apikey=${API_KEY}&hash=${API_HASH}`;
 
 	useEffect(() => {
@@ -21,6 +23,7 @@ export default function useFetch<T>(fetchUrl: string): IUseFetch<T> {
 					if (isCorrectData(result)) {
 						setData(result.data.results);
 						setLoading(false);
+						setTotal(result.data.total);
 					}
 				})
 				.catch((err) => {
@@ -34,5 +37,5 @@ export default function useFetch<T>(fetchUrl: string): IUseFetch<T> {
 		return () => abortController.abort();
 	}, [url]);
 
-	return { data, loading };
+	return { data, loading, total };
 }
