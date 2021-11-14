@@ -92,6 +92,8 @@ export default function Section({ type }: ISectionProps) {
 
 			{loading && <Spinner />}
 
+			{query && <h2>Results for "{query}".</h2>}
+
 			{!loading && currentPosts?.length > 0 && (
 				<>
 					<CardsContainer loading={loading} posts={currentPosts} type={type} />
