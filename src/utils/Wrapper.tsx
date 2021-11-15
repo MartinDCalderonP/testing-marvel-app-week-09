@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement, ReactNode } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { render } from '@testing-library/react';
+import { StateProvider } from '../context/Context';
 import Layout from '../components/Layout';
 
 interface IWrapperProps {
@@ -14,12 +15,14 @@ function LocationDisplay() {
 
 function Wrapper({ children }: IWrapperProps) {
 	return (
-		<BrowserRouter>
-			<Layout>
-				{children}
-				<LocationDisplay />
-			</Layout>
-		</BrowserRouter>
+		<StateProvider>
+			<BrowserRouter>
+				<Layout>
+					{children}
+					<LocationDisplay />
+				</Layout>
+			</BrowserRouter>
+		</StateProvider>
 	);
 }
 
