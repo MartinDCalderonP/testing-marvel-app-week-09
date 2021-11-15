@@ -14,7 +14,7 @@ import {
 	PossibleArrayTypes,
 	PossibleTypes,
 } from '../common/interfaces';
-import { isStory, isDataArray } from '../common/typeGuards';
+import { isStory, isCorrect } from '../common/typeGuards';
 import useFetch from '../hooks/useFetch';
 import SearchInput from '../components/SearchInput';
 import Select from '../components/Select';
@@ -39,7 +39,7 @@ export default function Section({ type }: ISectionProps) {
 	const history = useHistory();
 	const { state } = useContextState();
 
-	const filterHiddenPosts = isDataArray(data)?.filter(
+	const filterHiddenPosts = isCorrect(data)?.filter(
 		(item: PossibleTypes) => !state.hiddenPosts.includes(item.id)
 	);
 
@@ -50,7 +50,7 @@ export default function Section({ type }: ISectionProps) {
 		);
 
 	const currentPosts =
-		state?.hiddenPosts?.length > 0
+		state?.hiddenPosts?.length > 0 && filterHiddenPosts
 			? filterHiddenPosts
 			: type === 'stories' && query
 			? searchedPosts

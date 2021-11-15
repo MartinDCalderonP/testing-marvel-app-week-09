@@ -17,7 +17,3 @@ export const isStory = (data: any) => {
 export const isCorrect = (data: any) => {
 	return data?.id && data;
 };
-
-export const isDataArray = (data: any) => {
-	return data?.length && data;
-};
