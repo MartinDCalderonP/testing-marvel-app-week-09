@@ -1,4 +1,3 @@
-import { text } from '@fortawesome/fontawesome-svg-core';
 import { IBookmark } from '../common/interfaces';
 import { initialState, reducer, actionTypes } from '../context/Context';
 
