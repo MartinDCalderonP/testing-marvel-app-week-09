@@ -1,7 +1,7 @@
 import { createContext, useReducer, useContext, ReactNode } from 'react';
 import { Action, State, Context } from '../common/types';
 
-const initialState = {
+export const initialState = {
 	bookmarks: [],
 	hiddenPosts: [],
 };
@@ -16,7 +16,7 @@ export const actionTypes = {
 
 const StateContext = createContext<Context>({} as Context);
 
-function reducer(state: State, action: Action) {
+export function reducer(state: State, action: Action) {
 	switch (action.type) {
 		case actionTypes.ADD_BOOKMARKS:
 			return {
@@ -49,7 +49,7 @@ function reducer(state: State, action: Action) {
 			};
 
 		default:
-			throw new Error();
+			return initialState;
 	}
 }
 
