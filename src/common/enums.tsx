@@ -12,6 +12,7 @@ export enum paths {
 }
 
 export enum API {
+	baseUrl = 'https://gateway.marvel.com:443/v1/public/',
 	characters = 'https://gateway.marvel.com/v1/public/characters',
 	comics = 'https://gateway.marvel.com/v1/public/comics',
 	stories = 'https://gateway.marvel.com/v1/public/stories',
