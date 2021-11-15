@@ -63,19 +63,19 @@ export default function CardButtons({
 		? handleAddBookmark
 		: handleRemoveBookmark;
 
-	const handleHidePost = (e: MouseEvent<HTMLButtonElement>) => {
+	const handleAddHiddenPost = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
-		const newHiddenPosts = id;
+		const newHiddenPost = id;
 
 		window.localStorage.setItem(
 			'hiddenPosts',
-			JSON.stringify([...state.hiddenPosts, newHiddenPosts])
+			JSON.stringify([...state.hiddenPosts, newHiddenPost])
 		);
 
 		dispatch({
 			type: actionTypes.ADD_HIDDEN_POST,
-			hiddenPosts: [...state.hiddenPosts, newHiddenPosts],
+			hiddenPosts: [...state.hiddenPosts, newHiddenPost],
 		});
 	};
 
@@ -85,7 +85,7 @@ export default function CardButtons({
 				<FontAwesomeIcon className={styles.bookmarkIcon} icon={currentIcon} />
 			</button>
 
-			<button className={styles.cardButton} onClick={handleHidePost}>
+			<button className={styles.cardButton} onClick={handleAddHiddenPost}>
 				<FontAwesomeIcon className={styles.bookmarkIcon} icon={faEyeSlash} />
 			</button>
 		</div>
