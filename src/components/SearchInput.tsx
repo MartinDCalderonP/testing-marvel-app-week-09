@@ -26,8 +26,8 @@ export default function SearchInput({ type }: ISearchInputProps) {
 
 	// eslint-disable-next-line
 	const debounceQuery = useCallback(
-		_.debounce((term) => {
-			searchQuery(term);
+		_.debounce((query) => {
+			searchQuery(query);
 		}, 500),
 		[searchQuery]
 	);

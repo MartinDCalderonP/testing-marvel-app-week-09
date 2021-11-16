@@ -26,8 +26,8 @@ export const detailFetchUrl = (id: string, type: string): string => {
 	return fetchUrls[type];
 };
 
-export const searchNavigationUrl = (term: string, type: string): string => {
-	const termToPath = term.replaceAll(' ', '+');
+export const searchNavigationUrl = (query: string, type: string): string => {
+	const queryToPath = query.replaceAll(' ', '+');
 
 	const sections: IObjects = {
 		characters: paths.characters,
@@ -35,7 +35,7 @@ export const searchNavigationUrl = (term: string, type: string): string => {
 		stories: paths.stories,
 	};
 
-	return `${sections[type]}${paths.search}${termToPath}${paths.page}1`;
+	return `${sections[type]}${paths.search}${queryToPath}${paths.page}1`;
 };
 
 export const sectionFetchUrl = (
@@ -197,8 +197,8 @@ export const selectFetchUrl = (type: string) => {
 	return fetchUrls[type];
 };
 
-export const selectNavigationUrl = (term: string, type: string) => {
-	const params = `${term}${paths.page}1`;
+export const selectNavigationUrl = (selectValue: string, type: string) => {
+	const params = `${selectValue}${paths.page}1`;
 
 	const navigationUrls: IObjects = {
 		comics: `${paths.characters}${paths.comic}${params}`,
