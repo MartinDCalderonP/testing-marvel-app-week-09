@@ -40,6 +40,7 @@ export default function Select({ currentValue, type }: ISelect) {
 		<>
 			{!loading && (
 				<select
+					data-testid="select"
 					className={styles.select}
 					value={selectedValue}
 					onChange={handleSelectValueChange}
