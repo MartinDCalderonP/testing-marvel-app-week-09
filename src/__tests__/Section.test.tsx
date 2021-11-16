@@ -1,7 +1,6 @@
 import RenderWithRouter from '../utils/Wrapper';
 import Section from '../pages/Section';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/react';
 
 test('should charge Characters page', async () => {
 	const { findByText } = RenderWithRouter(<Section type="characters" />);
