@@ -11,4 +11,6 @@ module.exports = {
 	moduleDirectories: ['src', 'node_modules'],
 	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
 	setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+	collectCoverage: true,
+	collectCoverageFrom: ['src/**/*.{ts,tsx}'],
 };
