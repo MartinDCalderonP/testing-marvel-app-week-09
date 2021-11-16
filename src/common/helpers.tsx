@@ -154,13 +154,13 @@ export const sectionNoResultsText = (
 	type: string
 ): string => {
 	const charactersNoResultsTexts: IObjects = {
-		characters: ' characters section',
+		default: ' characters section',
 		comic: ' this comic',
 		story: 'this story',
 	};
 
 	const comicsNoResultsTexts: IObjects = {
-		comics: ' comics section',
+		default: ' comics section',
 		format: ' this format',
 	};
 
